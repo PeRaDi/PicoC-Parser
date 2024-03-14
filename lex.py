@@ -2,7 +2,7 @@ from ply import lex, yacc
 
 literals = ['+', '-', '*', '/', '(', ')', '{', '}', ';', '=', '>', '<', '!', '"']
 
-tokens = ['nr', 'string', 'str', 'if', 'else', 'while', 'var', 'int', 'then', 'end']
+tokens = ['nr', 'string', 'str', 'if', 'else', 'while', 'var', 'int', 'then', 'end', 'isEqual', 'isNotEqual', 'isEqualOrGreater', 'isEqualOrLess']
 
 def t_int(t):
     r"int"
@@ -44,6 +44,23 @@ def t_nr(t):
 def t_str(t):
     r'"[^"]*"'
     return t
+
+def t_isEqual(t):
+    r"=="
+    return t
+
+def t_isNotEqual(t):
+    r"!="
+    return t
+
+def t_isEqualOrGreater(t):
+    r">="
+    return t
+
+def t_isEqualOrLess(t):
+    r"<="
+    return t
+
 
 def t_error(t):
     print("Error: " + str(t))

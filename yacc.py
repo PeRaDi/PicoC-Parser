@@ -13,7 +13,7 @@ def p_Rec1(p) :
 
 def p_Instrucao(p) :
     """Instrucao : ifStatment
-                 | while
+                 | whileLoop
                  | atrib
                  | nr"""
     p[0] = p[1]
@@ -21,7 +21,7 @@ def p_Instrucao(p) :
 def p_atrib(p):
     """atrib : int var ';'
              | string var ';'
-             | int var '=' nr ';'
+             | int var '=' exp ';'
              | string var '=' str ';'"""
     if len(p) == 4:
         p[0] = 'Atrib "' + p[2] + '"'
@@ -32,22 +32,35 @@ def p_error(p):
     print("Syntax error in input!")
 
 def p_ifStatment(p):
-    "ifStatment : if '(' cond ')' then Instrucao end"
-    p[0] = 'If (' + p[3] + ') then ' + p[6] + ' end'
+    """ ifStatment : if '(' cond ')' then Instrucao end
+                   | if '(' cond ')' then Instrucao else Instrucao end
+    """
+    if len(p) == 8:
+        p[0] = 'If (' + p[3] + ') then ' + p[6] + ' end'
+    else:
+        p[0] = 'If (' + p[3] + ') then ' + p[6] + ' else ' + p[8] + ' end'
 
 def p_cond(p):
     """ cond : exp '>' exp
              | exp '<' exp
-             | exp '==' exp
-             | exp '!=' exp
-             | exp '>=' exp
-             | exp '<=' exp
+             | exp isEqual exp
+             | exp isNotEqual exp
+             | exp isEqualOrGreater exp
+             | exp isEqualOrLess exp
              | exp
     """
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-        p[0] = p[1] + ' ' + p[2] + ' ' + p[3]
+    if (p[2] == '>'):
+        p[0] = str(p[1]) + ' isGreaterThan ' + str(p[3])
+    elif (p[2] == '<'):
+        p[0] = str(p[1]) + ' isLessThan ' + str(p[3])
+    elif (p[2] == '=='):
+        p[0] = str(p[1]) + ' isEqual ' + str(p[3])
+    elif (p[2] == '!='):
+        p[0] = str(p[1]) + ' isNotEqual ' + str(p[3])
+    elif (p[2] == '>='):
+        p[0] = str(p[1]) + ' isEqualOrGreater ' + str(p[3])
+    elif (p[2] == '<='):
+        p[0] = str(p[1]) + ' isEqualOrLess ' + str(p[3])
 
 def p_exp(p):
     """exp : exp '+' exp
@@ -61,17 +74,33 @@ def p_exp(p):
     if len(p) == 2:
         p[0] = p[1]
     elif p[1] == '(':
-        p[0] = '(' + p[2] + ')'
+        p[0] = str(p[2])
     else:
-        p[0] = p[1] + ' ' + p[2] + ' ' + p[3]
+        p[0] = eval(str(p[1]) + p[2] + str(p[3]))
 
+def p_whileLoop(p):
+    """whileLoop : while '(' cond ')' then Instrucao end"""
+    p[0] = 'While (' + p[3] + ') then ' + p[6] + ' end'
 
 parser = yacc.yacc()
 
 data = """
-if(x > 0) then
-    x = 1+1;
-end
+    if(1 == 0) then 
+        int x = 1 + 1;
+    else 
+        int x = 2;
+    end
+
+    if(x > (2+2*2)) then
+        int a = 1;
+    else
+        int b = 2;
+    end
+
+    while(x > 2) then
+        int c = 3;
+    end
 """
+
 result = parser.parse(data)
 print(result)
