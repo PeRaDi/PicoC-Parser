@@ -82,10 +82,22 @@ def p_whileLoop(p):
     """whileLoop : while '(' cond ')' then Instrucao end"""
     p[0] = 'While (' + p[3] + ') then ' + p[6] + ' end'
 
+# https://www.dabeaz.com/ply/ply.html#ply_nn1
+# his declaration specifies that PLUS/MINUS have the same precedence level and are left-associative
+# and that TIMES/DIVIDE have the same precedence and are left-associative.
+# Within the precedence declaration, tokens are ordered from lowest to highest precedence.
+# Thus, this declaration specifies that TIMES/DIVIDE have higher precedence than PLUS/MINUS
+# (since they appear later in the precedence specification).
+precedence = (
+    ('left', '+', '-'),
+    ('left', '*', '/'),
+)
+
 parser = yacc.yacc()
 
-# int x = 3 * 4 + 5; dá resultado 27 porque não está com a precedência definida
 data = """ 
+    int x = 3 * 4 + 5;
+    
     if(1 == 0) then 
         int x = 1 + 1;
     else 

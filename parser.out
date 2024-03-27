@@ -819,27 +819,23 @@ state 49
     (22) exp -> exp . * exp
     (23) exp -> exp . / exp
 
-  ! shift/reduce conflict for + resolved as shift
-  ! shift/reduce conflict for - resolved as shift
-  ! shift/reduce conflict for * resolved as shift
-  ! shift/reduce conflict for / resolved as shift
     >               reduce using rule 20 (exp -> exp + exp .)
     <               reduce using rule 20 (exp -> exp + exp .)
     isEqual         reduce using rule 20 (exp -> exp + exp .)
     isNotEqual      reduce using rule 20 (exp -> exp + exp .)
     isEqualOrGreater reduce using rule 20 (exp -> exp + exp .)
     isEqualOrLess   reduce using rule 20 (exp -> exp + exp .)
+    +               reduce using rule 20 (exp -> exp + exp .)
+    -               reduce using rule 20 (exp -> exp + exp .)
     )               reduce using rule 20 (exp -> exp + exp .)
     ;               reduce using rule 20 (exp -> exp + exp .)
-    +               shift and go to state 34
-    -               shift and go to state 35
     *               shift and go to state 36
     /               shift and go to state 37
 
-  ! +               [ reduce using rule 20 (exp -> exp + exp .) ]
-  ! -               [ reduce using rule 20 (exp -> exp + exp .) ]
   ! *               [ reduce using rule 20 (exp -> exp + exp .) ]
   ! /               [ reduce using rule 20 (exp -> exp + exp .) ]
+  ! +               [ shift and go to state 34 ]
+  ! -               [ shift and go to state 35 ]
 
 
 state 50
@@ -850,27 +846,23 @@ state 50
     (22) exp -> exp . * exp
     (23) exp -> exp . / exp
 
-  ! shift/reduce conflict for + resolved as shift
-  ! shift/reduce conflict for - resolved as shift
-  ! shift/reduce conflict for * resolved as shift
-  ! shift/reduce conflict for / resolved as shift
     >               reduce using rule 21 (exp -> exp - exp .)
     <               reduce using rule 21 (exp -> exp - exp .)
     isEqual         reduce using rule 21 (exp -> exp - exp .)
     isNotEqual      reduce using rule 21 (exp -> exp - exp .)
     isEqualOrGreater reduce using rule 21 (exp -> exp - exp .)
     isEqualOrLess   reduce using rule 21 (exp -> exp - exp .)
+    +               reduce using rule 21 (exp -> exp - exp .)
+    -               reduce using rule 21 (exp -> exp - exp .)
     )               reduce using rule 21 (exp -> exp - exp .)
     ;               reduce using rule 21 (exp -> exp - exp .)
-    +               shift and go to state 34
-    -               shift and go to state 35
     *               shift and go to state 36
     /               shift and go to state 37
 
-  ! +               [ reduce using rule 21 (exp -> exp - exp .) ]
-  ! -               [ reduce using rule 21 (exp -> exp - exp .) ]
   ! *               [ reduce using rule 21 (exp -> exp - exp .) ]
   ! /               [ reduce using rule 21 (exp -> exp - exp .) ]
+  ! +               [ shift and go to state 34 ]
+  ! -               [ shift and go to state 35 ]
 
 
 state 51
@@ -881,27 +873,23 @@ state 51
     (22) exp -> exp . * exp
     (23) exp -> exp . / exp
 
-  ! shift/reduce conflict for + resolved as shift
-  ! shift/reduce conflict for - resolved as shift
-  ! shift/reduce conflict for * resolved as shift
-  ! shift/reduce conflict for / resolved as shift
     >               reduce using rule 22 (exp -> exp * exp .)
     <               reduce using rule 22 (exp -> exp * exp .)
     isEqual         reduce using rule 22 (exp -> exp * exp .)
     isNotEqual      reduce using rule 22 (exp -> exp * exp .)
     isEqualOrGreater reduce using rule 22 (exp -> exp * exp .)
     isEqualOrLess   reduce using rule 22 (exp -> exp * exp .)
+    +               reduce using rule 22 (exp -> exp * exp .)
+    -               reduce using rule 22 (exp -> exp * exp .)
+    *               reduce using rule 22 (exp -> exp * exp .)
+    /               reduce using rule 22 (exp -> exp * exp .)
     )               reduce using rule 22 (exp -> exp * exp .)
     ;               reduce using rule 22 (exp -> exp * exp .)
-    +               shift and go to state 34
-    -               shift and go to state 35
-    *               shift and go to state 36
-    /               shift and go to state 37
 
-  ! +               [ reduce using rule 22 (exp -> exp * exp .) ]
-  ! -               [ reduce using rule 22 (exp -> exp * exp .) ]
-  ! *               [ reduce using rule 22 (exp -> exp * exp .) ]
-  ! /               [ reduce using rule 22 (exp -> exp * exp .) ]
+  ! +               [ shift and go to state 34 ]
+  ! -               [ shift and go to state 35 ]
+  ! *               [ shift and go to state 36 ]
+  ! /               [ shift and go to state 37 ]
 
 
 state 52
@@ -912,27 +900,23 @@ state 52
     (22) exp -> exp . * exp
     (23) exp -> exp . / exp
 
-  ! shift/reduce conflict for + resolved as shift
-  ! shift/reduce conflict for - resolved as shift
-  ! shift/reduce conflict for * resolved as shift
-  ! shift/reduce conflict for / resolved as shift
     >               reduce using rule 23 (exp -> exp / exp .)
     <               reduce using rule 23 (exp -> exp / exp .)
     isEqual         reduce using rule 23 (exp -> exp / exp .)
     isNotEqual      reduce using rule 23 (exp -> exp / exp .)
     isEqualOrGreater reduce using rule 23 (exp -> exp / exp .)
     isEqualOrLess   reduce using rule 23 (exp -> exp / exp .)
+    +               reduce using rule 23 (exp -> exp / exp .)
+    -               reduce using rule 23 (exp -> exp / exp .)
+    *               reduce using rule 23 (exp -> exp / exp .)
+    /               reduce using rule 23 (exp -> exp / exp .)
     )               reduce using rule 23 (exp -> exp / exp .)
     ;               reduce using rule 23 (exp -> exp / exp .)
-    +               shift and go to state 34
-    -               shift and go to state 35
-    *               shift and go to state 36
-    /               shift and go to state 37
 
-  ! +               [ reduce using rule 23 (exp -> exp / exp .) ]
-  ! -               [ reduce using rule 23 (exp -> exp / exp .) ]
-  ! *               [ reduce using rule 23 (exp -> exp / exp .) ]
-  ! /               [ reduce using rule 23 (exp -> exp / exp .) ]
+  ! +               [ shift and go to state 34 ]
+  ! -               [ shift and go to state 35 ]
+  ! *               [ shift and go to state 36 ]
+  ! /               [ shift and go to state 37 ]
 
 
 state 53
@@ -1079,22 +1063,3 @@ state 62
     end             reduce using rule 12 (ifStatment -> if ( cond ) then Instrucao else Instrucao end .)
     else            reduce using rule 12 (ifStatment -> if ( cond ) then Instrucao else Instrucao end .)
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for + in state 49 resolved as shift
-WARNING: shift/reduce conflict for - in state 49 resolved as shift
-WARNING: shift/reduce conflict for * in state 49 resolved as shift
-WARNING: shift/reduce conflict for / in state 49 resolved as shift
-WARNING: shift/reduce conflict for + in state 50 resolved as shift
-WARNING: shift/reduce conflict for - in state 50 resolved as shift
-WARNING: shift/reduce conflict for * in state 50 resolved as shift
-WARNING: shift/reduce conflict for / in state 50 resolved as shift
-WARNING: shift/reduce conflict for + in state 51 resolved as shift
-WARNING: shift/reduce conflict for - in state 51 resolved as shift
-WARNING: shift/reduce conflict for * in state 51 resolved as shift
-WARNING: shift/reduce conflict for / in state 51 resolved as shift
-WARNING: shift/reduce conflict for + in state 52 resolved as shift
-WARNING: shift/reduce conflict for - in state 52 resolved as shift
-WARNING: shift/reduce conflict for * in state 52 resolved as shift
-WARNING: shift/reduce conflict for / in state 52 resolved as shift
