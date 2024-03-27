@@ -84,7 +84,8 @@ def p_whileLoop(p):
 
 parser = yacc.yacc()
 
-data = """
+# int x = 3 * 4 + 5; dá resultado 27 porque não está com a precedência definida
+data = """ 
     if(1 == 0) then 
         int x = 1 + 1;
     else 
