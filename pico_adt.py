@@ -1,5 +1,7 @@
-
 from adt import adt, Case
+
+pretty_print = False
+
 
 @adt
 class PicoC:
@@ -10,8 +12,7 @@ class PicoC:
 
     def __str__(self):
         return self.match(
-            inst=lambda i: "INST (" + str(i) + ")"
-            #inst=lambda i: str(i)
+            inst=lambda i: str(i) if pretty_print else "INST (" + str(i) + ")"
         )
 
 
@@ -24,8 +25,7 @@ class Bloco:
 
     def __str__(self):
         return self.match(
-            inst=lambda i: "INST (" + str(i) + ")"
-            #inst=lambda i: str(i)
+            inst=lambda i: str(i) if pretty_print else "INST (" + str(i) + ")"
         )
 
 
@@ -41,10 +41,10 @@ class Inst:
 
     def __str__(self):
         return self.match(
-            atrib=lambda s, e: "ATRIB (" + s + ", " + str(e) + ")",
-            while_loop=lambda e, b: "WHILE (" + str(e) + ", " + str(b) + ")",
-            ite=lambda e, b1, b2: "ITE (" + str(e) + ", " + str(b1) + ", " + str(b2) + ")",
-            empty=lambda: "EMPTY"
+            atrib=lambda s, e: s + ' = ' + str(e) if pretty_print else "ATRIB (" + s + ", " + str(e) + ")",
+            while_loop=lambda e, b: 'while (' + str(e) + ') { ' + str(b) + ' }' if pretty_print else "WHILE (" + str(e) + ", " + str(b) + ")",
+            ite=lambda e, b1, b2:  'if (' + str(e) + ') { ' + str(b1) + ' } else { ' + str(b2) + ' }' if pretty_print else "ITE (" + str(e) + ", " + str(b1) + ", " + str(b2) + ")",
+            empty=lambda: "" if pretty_print else "EMPTY"
         )
 
 
@@ -63,13 +63,13 @@ class Exp:
 
     def __str__(self):
         return self.match(
-            add=lambda x, y: "ADD (" + str(x) + ", " + str(y) + ")",
-            sub=lambda x, y: "SUB (" + str(x) + ", " + str(y) + ")",
-            mul=lambda x, y: "MUL (" + str(x) + ", " + str(y) + ")",
-            div=lambda x, y: "DIV (" + str(x) + ", " + str(y) + ")",
-            neg=lambda x: "NEG (" + str(x) + ")",
-            var=lambda x: "VAR (" + x + ")",
-            const=lambda x: "CONS (" + str(x) + ")",
+            add=lambda x, y: str(x) + ' + ' + str(y) if pretty_print else "ADD (" + str(x) + ", " + str(y) + ")",
+            sub=lambda x, y: str(x) + ' - ' + str(y) if pretty_print else "SUB (" + str(x) + ", " + str(y) + ")",
+            mul=lambda x, y: str(x) + ' * ' + str(y) if pretty_print else "MUL (" + str(x) + ", " + str(y) + ")",
+            div=lambda x, y: str(x) + ' / ' + str(y) if pretty_print else "DIV (" + str(x) + ", " + str(y) + ")",
+            neg=lambda x: '-' + str(x) if pretty_print else "NEG (" + str(x) + ")",
+            var=lambda x: x if pretty_print else "VAR (" + x + ")",
+            const=lambda x: str(x) if pretty_print else "CONS (" + str(x) + ")",
         )
 
 
@@ -87,11 +87,10 @@ class Cond:
 
     def __str__(self):
         return self.match(
-            equal=lambda x, y: "EQUAL (" + str(x) + ", " + str(y) + ")",
-            not_equal=lambda x, y: "NOT_EQUAL (" + str(x) + ", " + str(y) + ")",
-            greater=lambda x, y: "GREATER (" + str(x) + ", " + str(y) + ")",
-            greater_equal=lambda x, y: "GREATER_EQUAL (" + str(x) + ", " + str(y) + ")",
-            less=lambda x, y: "LESS (" + str(x) + ", " + str(y) + ")",
-            less_equal=lambda x, y: "LESS_EQUAL (" + str(x) + ", " + str(y) + ")",
+            equal=lambda x, y: str(x) + ' == ' + str(y) if pretty_print else "EQUAL (" + str(x) + ", " + str(y) + ")",
+            not_equal=lambda x, y: str(x) + ' != ' + str(y) if pretty_print else "NOT_EQUAL (" + str(x) + ", " + str(y) + ")",
+            greater=lambda x, y: str(x) + ' > ' + str(y) if pretty_print else "GREATER (" + str(x) + ", " + str(y) + ")",
+            greater_equal=lambda x, y: str(x) + ' >= ' + str(y) if pretty_print else "GREATER_EQUAL (" + str(x) + ", " + str(y) + ")",
+            less=lambda x, y: str(x) + ' < ' + str(y) if pretty_print else "LESS (" + str(x) + ", " + str(y) + ")",
+            less_equal=lambda x, y: str(x) + ' <= ' + str(y) if pretty_print else "LESS_EQUAL (" + str(x) + ", " + str(y) + ")",
         )
-

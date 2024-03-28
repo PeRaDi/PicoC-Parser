@@ -1,4 +1,5 @@
 
+import pico_adt as pa
 import pico_parser as p
 import pico_opt as op
 
@@ -6,7 +7,7 @@ def main():
     data = """ 
         int x = 3 * 4 + 5;
         int y = 3 + 4 * -5;
-        
+                
         if(1 == 0) then 
             int x = 1 + 3;
         else 
@@ -23,9 +24,8 @@ def main():
             int c = 3;
         end
     """
-    # data = """
-    #     int x = 1 + 0;
-    # """
+
+    pa.pretty_print = True
     ast = p.parse(data)
     print(ast)
     opt = op.optimize(ast)
