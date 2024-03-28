@@ -16,6 +16,7 @@ class PicoC:
     def __str__(self):
         return self.match(
             inst=lambda i: "INST (" + str(i) + ")"
+            #inst=lambda i: str(i)
         )
 
 
@@ -29,6 +30,7 @@ class Bloco:
     def __str__(self):
         return self.match(
             inst=lambda i: "INST (" + str(i) + ")"
+            #inst=lambda i: str(i)
         )
 
 
@@ -246,26 +248,27 @@ parser = yacc.yacc()
 def main():
     # p = PicoC.INST(Inst.ATRIB("x", Exp.VAR("b")))
     # print(p)
-    data = """
+    data = """ 
         int x = 3 * 4 + 5;
         int y = 3 + 4 * -5;
-    """
-    dataITE = """
-        if(1 == 0) then
+        
+        if(1 == 0) then 
+            int x = 1 + 1;
+        else 
             int x = 2;
         end
-       
+    
         if(x > (2+2*2)) then
             int a = 1;
         else
             int b = 2;
         end
-        
+    
         while(x > 2) then
             int c = 3;
         end
     """
-    ast = parser.parse(dataITE)
+    ast = parser.parse(data)
     print(ast)
 
 
