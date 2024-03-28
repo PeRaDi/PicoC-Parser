@@ -68,11 +68,14 @@ def p_exp(p):
            | exp '*' exp
            | exp '/' exp
            | '(' exp ')'
+           | '-' exp %prec UMINUS
            | nr
            | var
     """
     if len(p) == 2:
         p[0] = p[1]
+    elif len(p) == 3:
+        p[0] = -p[2]
     elif p[1] == '(':
         p[0] = str(p[2])
     else:
@@ -91,12 +94,14 @@ def p_whileLoop(p):
 precedence = (
     ('left', '+', '-'),
     ('left', '*', '/'),
+    ('right', 'UMINUS'),            # Unary minus operator
 )
 
 parser = yacc.yacc()
 
 data = """ 
     int x = 3 * 4 + 5;
+    int y = 3 + 4 * -5;
     
     if(1 == 0) then 
         int x = 1 + 1;
