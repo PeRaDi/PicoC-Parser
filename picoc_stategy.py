@@ -9,9 +9,9 @@ def main():
         int y = 3 + 4 * -5;
         int z = 0;
         
-        // if(z <= (x + 2 * 3)) then 
-        //     z = 1 + 3 * 4;
-        // end
+        if(z <= (x + 2 * y)) then 
+             int z = (1 + 3) * y;
+        end
         
         if(1 == 0) then 
             int x = 1 + 3;

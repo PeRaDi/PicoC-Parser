@@ -43,7 +43,7 @@ class Inst:
         return self.match(
             atrib=lambda s, e: s + ' = ' + str(e) if pretty_print else "ATRIB (" + s + ", " + str(e) + ")",
             while_loop=lambda e, b: 'while (' + str(e) + ') { ' + str(b) + ' }' if pretty_print else "WHILE (" + str(e) + ", " + str(b) + ")",
-            ite=lambda e, b1, b2:  'if (' + str(e) + ') { ' + str(b1) + ' } else { ' + str(b2) + ' }' if pretty_print else "ITE (" + str(e) + ", " + str(b1) + ", " + str(b2) + ")",
+            ite=lambda e, b1, b2:  'if (' + str(e) + ') { ' + str(b1) + ' }' + (' else { ' + str(b2) + ' }' if b2 != Inst.EMPTY() else '') if pretty_print else "ITE (" + str(e) + ", " + str(b1) + ", " + str(b2) + ")",
             empty=lambda: "" if pretty_print else "EMPTY"
         )
 
