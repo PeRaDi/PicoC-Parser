@@ -8,31 +8,31 @@ def p_error(p):
     print("Syntax error in input!")
 
 
-def p_Rec0(p):
-    "Rec : PicoC"
-    p[0] = [p[1]]
-
-
-def p_Rec1(p):
-    "Rec : Rec PicoC"
-    p[0] = p[1]
-    p[0].append(p[2])
-
-
-def p_PicoC(p):
-    "PicoC : Instrucao"
-    p[0] = pa.PicoC.INST(p[1])
-
-
-# def p_Rec0(p) :
-#     "Rec : Instrucao"
+# def p_Rec0(p):
+#     "Rec : PicoC"
 #     p[0] = [p[1]]
 #
-# def p_Rec1(p) :
-#     "Rec : Rec Instrucao"
+#
+# def p_Rec1(p):
+#     "Rec : Rec PicoC"
 #     p[0] = p[1]
 #     p[0].append(p[2])
 #
+#
+# def p_PicoC(p):
+#     "PicoC : Instrucao"
+#     p[0] = pa.PicoC.INST(p[1])
+
+
+def p_Rec0(p) :
+    "Rec : Instrucao"
+    p[0] = [p[1]]
+
+def p_Rec1(p) :
+    "Rec : Rec Instrucao"
+    p[0] = p[1]
+    p[0].append(p[2])
+
 def p_Instrucao(p):
     """Instrucao : ifStatement
                 | whileLoop
