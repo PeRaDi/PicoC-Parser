@@ -10,7 +10,7 @@ def main():
         int z = 0;
         
         if(z <= (x + 2 * y)) then 
-             int z = (1 + 3) * y;
+             z = (1 + 3) * y;
         end
         
         if(1 == 0) then 

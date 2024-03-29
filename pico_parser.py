@@ -42,16 +42,21 @@ def p_Instrucao(p):
     p[0] = p[1]
 
 
-def p_atrib(p):
+def p_declare(p):
     """atrib : int var ';'
              | string var ';'
-             | int var '=' exp ';'
-             | string var '=' str ';'"""
-    if len(p) == 4:
-        p[0] = pa.Inst.ATRIB(p[2])
-    else:
-        p[0] = pa.Inst.ATRIB(p[2], p[4])
+     """
+    p[0] = pa.Inst.ATRIB(p[2])
 
+def p_declare_atrib(p):
+    """atrib : int var '=' exp ';'
+             | string var '=' str ';'
+     """
+    p[0] = pa.Inst.ATRIB(p[2], p[4])
+
+def p_atrib(p):
+    """atrib : var '=' exp ';' """
+    p[0] = pa.Inst.ATRIB(p[1], p[3])
 
 def p_exp_var(p):
     """exp : var"""
