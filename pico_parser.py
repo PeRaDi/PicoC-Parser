@@ -45,12 +45,15 @@ def p_Instrucao(p):
 def p_declare(p):
     """atrib : int var ';'
              | string var ';'
+             | bool var ';'
      """
     p[0] = pa.Inst.ATRIB(p[2])
 
 def p_declare_atrib(p):
     """atrib : int var '=' exp ';'
              | string var '=' str ';'
+             | bool var '=' true ';'
+             | bool var '=' false ';'
      """
     p[0] = pa.Inst.ATRIB(p[2], p[4])
 
@@ -66,6 +69,10 @@ def p_exp_var(p):
 def p_exp_const(p):
     """exp : nr"""
     p[0] = pa.Exp.CONST(p[1])
+
+def p_exp_bool(p):
+    """exp : bool"""
+    p[0] = pa.Exp.BOOL(p[1])
 
 
 def p_exp_binary_operation(p):
@@ -156,3 +163,37 @@ def parse(data):
     return ast
 
 
+if __name__ == '__main__':
+    data = """ 
+        int x = 3 * 4 + 5;
+        int y = 3 + 4 * -5;
+        int z = 0;
+        
+        if(z <= (x + 2 * y)) then 
+             z = (1 + 3) * y;
+        end
+        
+        if(1 == 0) then 
+            int x = 1 + 3;
+        else 
+            int x = 2;
+        end
+    
+        if(x > (2+2*4)) then
+            int a = 1;
+        else
+            int b = 2;
+        end
+    
+        while(x > 2) then
+            int c = 3;
+        end
+    """
+
+    data = """
+        bool x = false;
+    """
+
+    pa.pretty_print = False
+    ast = parse(data)
+    print(ast)

@@ -11,63 +11,70 @@ Rule 5     Instrucao -> atrib
 Rule 6     Instrucao -> nr
 Rule 7     atrib -> int var ;
 Rule 8     atrib -> string var ;
-Rule 9     atrib -> int var = exp ;
-Rule 10    atrib -> string var = str ;
-Rule 11    atrib -> var = exp ;
-Rule 12    exp -> var
-Rule 13    exp -> nr
-Rule 14    exp -> exp + exp
-Rule 15    exp -> exp - exp
-Rule 16    exp -> exp * exp
-Rule 17    exp -> exp / exp
-Rule 18    exp -> - exp
-Rule 19    exp -> ( exp )
-Rule 20    ifStatement -> if ( cond ) then Instrucao end
-Rule 21    ifStatement -> if ( cond ) then Instrucao else Instrucao end
-Rule 22    cond -> exp > exp
-Rule 23    cond -> exp < exp
-Rule 24    cond -> exp isEqual exp
-Rule 25    cond -> exp isNotEqual exp
-Rule 26    cond -> exp isEqualOrGreater exp
-Rule 27    cond -> exp isEqualOrLess exp
-Rule 28    cond -> exp
-Rule 29    whileLoop -> while ( cond ) then Instrucao end
+Rule 9     atrib -> bool var ;
+Rule 10    atrib -> int var = exp ;
+Rule 11    atrib -> string var = str ;
+Rule 12    atrib -> bool var = true ;
+Rule 13    atrib -> bool var = false ;
+Rule 14    atrib -> var = exp ;
+Rule 15    exp -> var
+Rule 16    exp -> nr
+Rule 17    exp -> bool
+Rule 18    exp -> exp + exp
+Rule 19    exp -> exp - exp
+Rule 20    exp -> exp * exp
+Rule 21    exp -> exp / exp
+Rule 22    exp -> - exp
+Rule 23    exp -> ( exp )
+Rule 24    ifStatement -> if ( cond ) then Instrucao end
+Rule 25    ifStatement -> if ( cond ) then Instrucao else Instrucao end
+Rule 26    cond -> exp > exp
+Rule 27    cond -> exp < exp
+Rule 28    cond -> exp isEqual exp
+Rule 29    cond -> exp isNotEqual exp
+Rule 30    cond -> exp isEqualOrGreater exp
+Rule 31    cond -> exp isEqualOrLess exp
+Rule 32    cond -> exp
+Rule 33    whileLoop -> while ( cond ) then Instrucao end
 
 Terminals, with rules where they appear
 
-(                    : 19 20 21 29
-)                    : 19 20 21 29
-*                    : 16
-+                    : 14
--                    : 15 18
-/                    : 17
-;                    : 7 8 9 10 11
-<                    : 23
-=                    : 9 10 11
->                    : 22
-else                 : 21
-end                  : 20 21 29
+(                    : 23 24 25 33
+)                    : 23 24 25 33
+*                    : 20
++                    : 18
+-                    : 19 22
+/                    : 21
+;                    : 7 8 9 10 11 12 13 14
+<                    : 27
+=                    : 10 11 12 13 14
+>                    : 26
+bool                 : 9 12 13 17
+else                 : 25
+end                  : 24 25 33
 error                : 
-if                   : 20 21
-int                  : 7 9
-isEqual              : 24
-isEqualOrGreater     : 26
-isEqualOrLess        : 27
-isNotEqual           : 25
-nr                   : 6 13
-str                  : 10
-string               : 8 10
-then                 : 20 21 29
-var                  : 7 8 9 10 11 12
-while                : 29
+false                : 13
+if                   : 24 25
+int                  : 7 10
+isEqual              : 28
+isEqualOrGreater     : 30
+isEqualOrLess        : 31
+isNotEqual           : 29
+nr                   : 6 16
+str                  : 11
+string               : 8 11
+then                 : 24 25 33
+true                 : 12
+var                  : 7 8 9 10 11 12 13 14 15
+while                : 33
 
 Nonterminals, with rules where they appear
 
-Instrucao            : 1 2 20 21 21 29
+Instrucao            : 1 2 24 25 25 33
 Rec                  : 2 0
 atrib                : 5
-cond                 : 20 21 29
-exp                  : 9 11 14 14 15 15 16 16 17 17 18 19 22 22 23 23 24 24 25 25 26 26 27 27 28
+cond                 : 24 25 33
+exp                  : 10 14 18 18 19 19 20 20 21 21 22 23 26 26 27 27 28 28 29 29 30 30 31 31 32
 ifStatement          : 3
 whileLoop            : 4
 
@@ -82,20 +89,24 @@ state 0
     (4) Instrucao -> . whileLoop
     (5) Instrucao -> . atrib
     (6) Instrucao -> . nr
-    (20) ifStatement -> . if ( cond ) then Instrucao end
-    (21) ifStatement -> . if ( cond ) then Instrucao else Instrucao end
-    (29) whileLoop -> . while ( cond ) then Instrucao end
+    (24) ifStatement -> . if ( cond ) then Instrucao end
+    (25) ifStatement -> . if ( cond ) then Instrucao else Instrucao end
+    (33) whileLoop -> . while ( cond ) then Instrucao end
     (7) atrib -> . int var ;
     (8) atrib -> . string var ;
-    (9) atrib -> . int var = exp ;
-    (10) atrib -> . string var = str ;
-    (11) atrib -> . var = exp ;
+    (9) atrib -> . bool var ;
+    (10) atrib -> . int var = exp ;
+    (11) atrib -> . string var = str ;
+    (12) atrib -> . bool var = true ;
+    (13) atrib -> . bool var = false ;
+    (14) atrib -> . var = exp ;
 
     nr              shift and go to state 6
     if              shift and go to state 7
     while           shift and go to state 8
     int             shift and go to state 9
     string          shift and go to state 11
+    bool            shift and go to state 12
     var             shift and go to state 10
 
     Rec                            shift and go to state 1
@@ -112,23 +123,27 @@ state 1
     (4) Instrucao -> . whileLoop
     (5) Instrucao -> . atrib
     (6) Instrucao -> . nr
-    (20) ifStatement -> . if ( cond ) then Instrucao end
-    (21) ifStatement -> . if ( cond ) then Instrucao else Instrucao end
-    (29) whileLoop -> . while ( cond ) then Instrucao end
+    (24) ifStatement -> . if ( cond ) then Instrucao end
+    (25) ifStatement -> . if ( cond ) then Instrucao else Instrucao end
+    (33) whileLoop -> . while ( cond ) then Instrucao end
     (7) atrib -> . int var ;
     (8) atrib -> . string var ;
-    (9) atrib -> . int var = exp ;
-    (10) atrib -> . string var = str ;
-    (11) atrib -> . var = exp ;
+    (9) atrib -> . bool var ;
+    (10) atrib -> . int var = exp ;
+    (11) atrib -> . string var = str ;
+    (12) atrib -> . bool var = true ;
+    (13) atrib -> . bool var = false ;
+    (14) atrib -> . var = exp ;
 
     nr              shift and go to state 6
     if              shift and go to state 7
     while           shift and go to state 8
     int             shift and go to state 9
     string          shift and go to state 11
+    bool            shift and go to state 12
     var             shift and go to state 10
 
-    Instrucao                      shift and go to state 12
+    Instrucao                      shift and go to state 13
     ifStatement                    shift and go to state 3
     whileLoop                      shift and go to state 4
     atrib                          shift and go to state 5
@@ -142,6 +157,7 @@ state 2
     while           reduce using rule 1 (Rec -> Instrucao .)
     int             reduce using rule 1 (Rec -> Instrucao .)
     string          reduce using rule 1 (Rec -> Instrucao .)
+    bool            reduce using rule 1 (Rec -> Instrucao .)
     var             reduce using rule 1 (Rec -> Instrucao .)
     $end            reduce using rule 1 (Rec -> Instrucao .)
 
@@ -155,6 +171,7 @@ state 3
     while           reduce using rule 3 (Instrucao -> ifStatement .)
     int             reduce using rule 3 (Instrucao -> ifStatement .)
     string          reduce using rule 3 (Instrucao -> ifStatement .)
+    bool            reduce using rule 3 (Instrucao -> ifStatement .)
     var             reduce using rule 3 (Instrucao -> ifStatement .)
     $end            reduce using rule 3 (Instrucao -> ifStatement .)
     end             reduce using rule 3 (Instrucao -> ifStatement .)
@@ -170,6 +187,7 @@ state 4
     while           reduce using rule 4 (Instrucao -> whileLoop .)
     int             reduce using rule 4 (Instrucao -> whileLoop .)
     string          reduce using rule 4 (Instrucao -> whileLoop .)
+    bool            reduce using rule 4 (Instrucao -> whileLoop .)
     var             reduce using rule 4 (Instrucao -> whileLoop .)
     $end            reduce using rule 4 (Instrucao -> whileLoop .)
     end             reduce using rule 4 (Instrucao -> whileLoop .)
@@ -185,6 +203,7 @@ state 5
     while           reduce using rule 5 (Instrucao -> atrib .)
     int             reduce using rule 5 (Instrucao -> atrib .)
     string          reduce using rule 5 (Instrucao -> atrib .)
+    bool            reduce using rule 5 (Instrucao -> atrib .)
     var             reduce using rule 5 (Instrucao -> atrib .)
     $end            reduce using rule 5 (Instrucao -> atrib .)
     end             reduce using rule 5 (Instrucao -> atrib .)
@@ -200,6 +219,7 @@ state 6
     while           reduce using rule 6 (Instrucao -> nr .)
     int             reduce using rule 6 (Instrucao -> nr .)
     string          reduce using rule 6 (Instrucao -> nr .)
+    bool            reduce using rule 6 (Instrucao -> nr .)
     var             reduce using rule 6 (Instrucao -> nr .)
     $end            reduce using rule 6 (Instrucao -> nr .)
     end             reduce using rule 6 (Instrucao -> nr .)
@@ -208,43 +228,52 @@ state 6
 
 state 7
 
-    (20) ifStatement -> if . ( cond ) then Instrucao end
-    (21) ifStatement -> if . ( cond ) then Instrucao else Instrucao end
+    (24) ifStatement -> if . ( cond ) then Instrucao end
+    (25) ifStatement -> if . ( cond ) then Instrucao else Instrucao end
 
-    (               shift and go to state 13
+    (               shift and go to state 14
 
 
 state 8
 
-    (29) whileLoop -> while . ( cond ) then Instrucao end
+    (33) whileLoop -> while . ( cond ) then Instrucao end
 
-    (               shift and go to state 14
+    (               shift and go to state 15
 
 
 state 9
 
     (7) atrib -> int . var ;
-    (9) atrib -> int . var = exp ;
+    (10) atrib -> int . var = exp ;
 
-    var             shift and go to state 15
+    var             shift and go to state 16
 
 
 state 10
 
-    (11) atrib -> var . = exp ;
+    (14) atrib -> var . = exp ;
 
-    =               shift and go to state 16
+    =               shift and go to state 17
 
 
 state 11
 
     (8) atrib -> string . var ;
-    (10) atrib -> string . var = str ;
+    (11) atrib -> string . var = str ;
 
-    var             shift and go to state 17
+    var             shift and go to state 18
 
 
 state 12
+
+    (9) atrib -> bool . var ;
+    (12) atrib -> bool . var = true ;
+    (13) atrib -> bool . var = false ;
+
+    var             shift and go to state 19
+
+
+state 13
 
     (2) Rec -> Rec Instrucao .
 
@@ -253,219 +282,258 @@ state 12
     while           reduce using rule 2 (Rec -> Rec Instrucao .)
     int             reduce using rule 2 (Rec -> Rec Instrucao .)
     string          reduce using rule 2 (Rec -> Rec Instrucao .)
+    bool            reduce using rule 2 (Rec -> Rec Instrucao .)
     var             reduce using rule 2 (Rec -> Rec Instrucao .)
     $end            reduce using rule 2 (Rec -> Rec Instrucao .)
 
 
-state 13
-
-    (20) ifStatement -> if ( . cond ) then Instrucao end
-    (21) ifStatement -> if ( . cond ) then Instrucao else Instrucao end
-    (22) cond -> . exp > exp
-    (23) cond -> . exp < exp
-    (24) cond -> . exp isEqual exp
-    (25) cond -> . exp isNotEqual exp
-    (26) cond -> . exp isEqualOrGreater exp
-    (27) cond -> . exp isEqualOrLess exp
-    (28) cond -> . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
-
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
-
-    cond                           shift and go to state 19
-    exp                            shift and go to state 20
-
 state 14
 
-    (29) whileLoop -> while ( . cond ) then Instrucao end
-    (22) cond -> . exp > exp
-    (23) cond -> . exp < exp
-    (24) cond -> . exp isEqual exp
-    (25) cond -> . exp isNotEqual exp
-    (26) cond -> . exp isEqualOrGreater exp
-    (27) cond -> . exp isEqualOrLess exp
-    (28) cond -> . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (24) ifStatement -> if ( . cond ) then Instrucao end
+    (25) ifStatement -> if ( . cond ) then Instrucao else Instrucao end
+    (26) cond -> . exp > exp
+    (27) cond -> . exp < exp
+    (28) cond -> . exp isEqual exp
+    (29) cond -> . exp isNotEqual exp
+    (30) cond -> . exp isEqualOrGreater exp
+    (31) cond -> . exp isEqualOrLess exp
+    (32) cond -> . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
-    cond                           shift and go to state 24
-    exp                            shift and go to state 20
+    cond                           shift and go to state 21
+    exp                            shift and go to state 22
 
 state 15
 
-    (7) atrib -> int var . ;
-    (9) atrib -> int var . = exp ;
+    (33) whileLoop -> while ( . cond ) then Instrucao end
+    (26) cond -> . exp > exp
+    (27) cond -> . exp < exp
+    (28) cond -> . exp isEqual exp
+    (29) cond -> . exp isNotEqual exp
+    (30) cond -> . exp isEqualOrGreater exp
+    (31) cond -> . exp isEqualOrLess exp
+    (32) cond -> . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    ;               shift and go to state 25
-    =               shift and go to state 26
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
+    cond                           shift and go to state 27
+    exp                            shift and go to state 22
 
 state 16
 
-    (11) atrib -> var = . exp ;
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
-
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
-
-    exp                            shift and go to state 27
-
-state 17
-
-    (8) atrib -> string var . ;
-    (10) atrib -> string var . = str ;
+    (7) atrib -> int var . ;
+    (10) atrib -> int var . = exp ;
 
     ;               shift and go to state 28
     =               shift and go to state 29
 
 
-state 18
+state 17
 
-    (19) exp -> ( . exp )
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (14) atrib -> var = . exp ;
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
     exp                            shift and go to state 30
 
+state 18
+
+    (8) atrib -> string var . ;
+    (11) atrib -> string var . = str ;
+
+    ;               shift and go to state 31
+    =               shift and go to state 32
+
+
 state 19
 
-    (20) ifStatement -> if ( cond . ) then Instrucao end
-    (21) ifStatement -> if ( cond . ) then Instrucao else Instrucao end
+    (9) atrib -> bool var . ;
+    (12) atrib -> bool var . = true ;
+    (13) atrib -> bool var . = false ;
 
-    )               shift and go to state 31
+    ;               shift and go to state 33
+    =               shift and go to state 34
 
 
 state 20
 
-    (22) cond -> exp . > exp
-    (23) cond -> exp . < exp
-    (24) cond -> exp . isEqual exp
-    (25) cond -> exp . isNotEqual exp
-    (26) cond -> exp . isEqualOrGreater exp
-    (27) cond -> exp . isEqualOrLess exp
-    (28) cond -> exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (23) exp -> ( . exp )
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    >               shift and go to state 32
-    <               shift and go to state 33
-    isEqual         shift and go to state 34
-    isNotEqual      shift and go to state 35
-    isEqualOrGreater shift and go to state 36
-    isEqualOrLess   shift and go to state 37
-    )               reduce using rule 28 (cond -> exp .)
-    +               shift and go to state 38
-    -               shift and go to state 39
-    *               shift and go to state 40
-    /               shift and go to state 41
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
+    exp                            shift and go to state 35
 
 state 21
 
-    (12) exp -> var .
+    (24) ifStatement -> if ( cond . ) then Instrucao end
+    (25) ifStatement -> if ( cond . ) then Instrucao else Instrucao end
 
-    >               reduce using rule 12 (exp -> var .)
-    <               reduce using rule 12 (exp -> var .)
-    isEqual         reduce using rule 12 (exp -> var .)
-    isNotEqual      reduce using rule 12 (exp -> var .)
-    isEqualOrGreater reduce using rule 12 (exp -> var .)
-    isEqualOrLess   reduce using rule 12 (exp -> var .)
-    +               reduce using rule 12 (exp -> var .)
-    -               reduce using rule 12 (exp -> var .)
-    *               reduce using rule 12 (exp -> var .)
-    /               reduce using rule 12 (exp -> var .)
-    )               reduce using rule 12 (exp -> var .)
-    ;               reduce using rule 12 (exp -> var .)
+    )               shift and go to state 36
 
 
 state 22
 
-    (13) exp -> nr .
+    (26) cond -> exp . > exp
+    (27) cond -> exp . < exp
+    (28) cond -> exp . isEqual exp
+    (29) cond -> exp . isNotEqual exp
+    (30) cond -> exp . isEqualOrGreater exp
+    (31) cond -> exp . isEqualOrLess exp
+    (32) cond -> exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    >               reduce using rule 13 (exp -> nr .)
-    <               reduce using rule 13 (exp -> nr .)
-    isEqual         reduce using rule 13 (exp -> nr .)
-    isNotEqual      reduce using rule 13 (exp -> nr .)
-    isEqualOrGreater reduce using rule 13 (exp -> nr .)
-    isEqualOrLess   reduce using rule 13 (exp -> nr .)
-    +               reduce using rule 13 (exp -> nr .)
-    -               reduce using rule 13 (exp -> nr .)
-    *               reduce using rule 13 (exp -> nr .)
-    /               reduce using rule 13 (exp -> nr .)
-    )               reduce using rule 13 (exp -> nr .)
-    ;               reduce using rule 13 (exp -> nr .)
+    >               shift and go to state 37
+    <               shift and go to state 38
+    isEqual         shift and go to state 39
+    isNotEqual      shift and go to state 40
+    isEqualOrGreater shift and go to state 41
+    isEqualOrLess   shift and go to state 42
+    )               reduce using rule 32 (cond -> exp .)
+    +               shift and go to state 43
+    -               shift and go to state 44
+    *               shift and go to state 45
+    /               shift and go to state 46
 
 
 state 23
 
-    (18) exp -> - . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (15) exp -> var .
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    >               reduce using rule 15 (exp -> var .)
+    <               reduce using rule 15 (exp -> var .)
+    isEqual         reduce using rule 15 (exp -> var .)
+    isNotEqual      reduce using rule 15 (exp -> var .)
+    isEqualOrGreater reduce using rule 15 (exp -> var .)
+    isEqualOrLess   reduce using rule 15 (exp -> var .)
+    +               reduce using rule 15 (exp -> var .)
+    -               reduce using rule 15 (exp -> var .)
+    *               reduce using rule 15 (exp -> var .)
+    /               reduce using rule 15 (exp -> var .)
+    )               reduce using rule 15 (exp -> var .)
+    ;               reduce using rule 15 (exp -> var .)
 
-    exp                            shift and go to state 42
 
 state 24
 
-    (29) whileLoop -> while ( cond . ) then Instrucao end
+    (16) exp -> nr .
 
-    )               shift and go to state 43
+    >               reduce using rule 16 (exp -> nr .)
+    <               reduce using rule 16 (exp -> nr .)
+    isEqual         reduce using rule 16 (exp -> nr .)
+    isNotEqual      reduce using rule 16 (exp -> nr .)
+    isEqualOrGreater reduce using rule 16 (exp -> nr .)
+    isEqualOrLess   reduce using rule 16 (exp -> nr .)
+    +               reduce using rule 16 (exp -> nr .)
+    -               reduce using rule 16 (exp -> nr .)
+    *               reduce using rule 16 (exp -> nr .)
+    /               reduce using rule 16 (exp -> nr .)
+    )               reduce using rule 16 (exp -> nr .)
+    ;               reduce using rule 16 (exp -> nr .)
 
 
 state 25
+
+    (17) exp -> bool .
+
+    >               reduce using rule 17 (exp -> bool .)
+    <               reduce using rule 17 (exp -> bool .)
+    isEqual         reduce using rule 17 (exp -> bool .)
+    isNotEqual      reduce using rule 17 (exp -> bool .)
+    isEqualOrGreater reduce using rule 17 (exp -> bool .)
+    isEqualOrLess   reduce using rule 17 (exp -> bool .)
+    +               reduce using rule 17 (exp -> bool .)
+    -               reduce using rule 17 (exp -> bool .)
+    *               reduce using rule 17 (exp -> bool .)
+    /               reduce using rule 17 (exp -> bool .)
+    )               reduce using rule 17 (exp -> bool .)
+    ;               reduce using rule 17 (exp -> bool .)
+
+
+state 26
+
+    (22) exp -> - . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
+
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
+
+    exp                            shift and go to state 47
+
+state 27
+
+    (33) whileLoop -> while ( cond . ) then Instrucao end
+
+    )               shift and go to state 48
+
+
+state 28
 
     (7) atrib -> int var ; .
 
@@ -474,47 +542,50 @@ state 25
     while           reduce using rule 7 (atrib -> int var ; .)
     int             reduce using rule 7 (atrib -> int var ; .)
     string          reduce using rule 7 (atrib -> int var ; .)
+    bool            reduce using rule 7 (atrib -> int var ; .)
     var             reduce using rule 7 (atrib -> int var ; .)
     $end            reduce using rule 7 (atrib -> int var ; .)
     end             reduce using rule 7 (atrib -> int var ; .)
     else            reduce using rule 7 (atrib -> int var ; .)
 
 
-state 26
+state 29
 
-    (9) atrib -> int var = . exp ;
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (10) atrib -> int var = . exp ;
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
-    exp                            shift and go to state 44
+    exp                            shift and go to state 49
 
-state 27
+state 30
 
-    (11) atrib -> var = exp . ;
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (14) atrib -> var = exp . ;
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    ;               shift and go to state 45
-    +               shift and go to state 38
-    -               shift and go to state 39
-    *               shift and go to state 40
-    /               shift and go to state 41
+    ;               shift and go to state 50
+    +               shift and go to state 43
+    -               shift and go to state 44
+    *               shift and go to state 45
+    /               shift and go to state 46
 
 
-state 28
+state 31
 
     (8) atrib -> string var ; .
 
@@ -523,698 +594,808 @@ state 28
     while           reduce using rule 8 (atrib -> string var ; .)
     int             reduce using rule 8 (atrib -> string var ; .)
     string          reduce using rule 8 (atrib -> string var ; .)
+    bool            reduce using rule 8 (atrib -> string var ; .)
     var             reduce using rule 8 (atrib -> string var ; .)
     $end            reduce using rule 8 (atrib -> string var ; .)
     end             reduce using rule 8 (atrib -> string var ; .)
     else            reduce using rule 8 (atrib -> string var ; .)
 
 
-state 29
-
-    (10) atrib -> string var = . str ;
-
-    str             shift and go to state 46
-
-
-state 30
-
-    (19) exp -> ( exp . )
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
-
-    )               shift and go to state 47
-    +               shift and go to state 38
-    -               shift and go to state 39
-    *               shift and go to state 40
-    /               shift and go to state 41
-
-
-state 31
-
-    (20) ifStatement -> if ( cond ) . then Instrucao end
-    (21) ifStatement -> if ( cond ) . then Instrucao else Instrucao end
-
-    then            shift and go to state 48
-
-
 state 32
 
-    (22) cond -> exp > . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (11) atrib -> string var = . str ;
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    str             shift and go to state 51
 
-    exp                            shift and go to state 49
 
 state 33
 
-    (23) cond -> exp < . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (9) atrib -> bool var ; .
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    nr              reduce using rule 9 (atrib -> bool var ; .)
+    if              reduce using rule 9 (atrib -> bool var ; .)
+    while           reduce using rule 9 (atrib -> bool var ; .)
+    int             reduce using rule 9 (atrib -> bool var ; .)
+    string          reduce using rule 9 (atrib -> bool var ; .)
+    bool            reduce using rule 9 (atrib -> bool var ; .)
+    var             reduce using rule 9 (atrib -> bool var ; .)
+    $end            reduce using rule 9 (atrib -> bool var ; .)
+    end             reduce using rule 9 (atrib -> bool var ; .)
+    else            reduce using rule 9 (atrib -> bool var ; .)
 
-    exp                            shift and go to state 50
 
 state 34
 
-    (24) cond -> exp isEqual . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (12) atrib -> bool var = . true ;
+    (13) atrib -> bool var = . false ;
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    true            shift and go to state 52
+    false           shift and go to state 53
 
-    exp                            shift and go to state 51
 
 state 35
 
-    (25) cond -> exp isNotEqual . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (23) exp -> ( exp . )
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    )               shift and go to state 54
+    +               shift and go to state 43
+    -               shift and go to state 44
+    *               shift and go to state 45
+    /               shift and go to state 46
 
-    exp                            shift and go to state 52
 
 state 36
 
-    (26) cond -> exp isEqualOrGreater . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (24) ifStatement -> if ( cond ) . then Instrucao end
+    (25) ifStatement -> if ( cond ) . then Instrucao else Instrucao end
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    then            shift and go to state 55
 
-    exp                            shift and go to state 53
 
 state 37
 
-    (27) cond -> exp isEqualOrLess . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (26) cond -> exp > . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
-
-    exp                            shift and go to state 54
-
-state 38
-
-    (14) exp -> exp + . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
-
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
-
-    exp                            shift and go to state 55
-
-state 39
-
-    (15) exp -> exp - . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
-
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
     exp                            shift and go to state 56
 
-state 40
+state 38
 
-    (16) exp -> exp * . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (27) cond -> exp < . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
     exp                            shift and go to state 57
 
-state 41
+state 39
 
-    (17) exp -> exp / . exp
-    (12) exp -> . var
-    (13) exp -> . nr
-    (14) exp -> . exp + exp
-    (15) exp -> . exp - exp
-    (16) exp -> . exp * exp
-    (17) exp -> . exp / exp
-    (18) exp -> . - exp
-    (19) exp -> . ( exp )
+    (28) cond -> exp isEqual . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    var             shift and go to state 21
-    nr              shift and go to state 22
-    -               shift and go to state 23
-    (               shift and go to state 18
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
     exp                            shift and go to state 58
 
+state 40
+
+    (29) cond -> exp isNotEqual . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
+
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
+
+    exp                            shift and go to state 59
+
+state 41
+
+    (30) cond -> exp isEqualOrGreater . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
+
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
+
+    exp                            shift and go to state 60
+
 state 42
 
-    (18) exp -> - exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (31) cond -> exp isEqualOrLess . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    >               reduce using rule 18 (exp -> - exp .)
-    <               reduce using rule 18 (exp -> - exp .)
-    isEqual         reduce using rule 18 (exp -> - exp .)
-    isNotEqual      reduce using rule 18 (exp -> - exp .)
-    isEqualOrGreater reduce using rule 18 (exp -> - exp .)
-    isEqualOrLess   reduce using rule 18 (exp -> - exp .)
-    +               reduce using rule 18 (exp -> - exp .)
-    -               reduce using rule 18 (exp -> - exp .)
-    *               reduce using rule 18 (exp -> - exp .)
-    /               reduce using rule 18 (exp -> - exp .)
-    )               reduce using rule 18 (exp -> - exp .)
-    ;               reduce using rule 18 (exp -> - exp .)
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
-  ! +               [ shift and go to state 38 ]
-  ! -               [ shift and go to state 39 ]
-  ! *               [ shift and go to state 40 ]
-  ! /               [ shift and go to state 41 ]
-
+    exp                            shift and go to state 61
 
 state 43
 
-    (29) whileLoop -> while ( cond ) . then Instrucao end
+    (18) exp -> exp + . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    then            shift and go to state 59
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
+    exp                            shift and go to state 62
 
 state 44
 
-    (9) atrib -> int var = exp . ;
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (19) exp -> exp - . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    ;               shift and go to state 60
-    +               shift and go to state 38
-    -               shift and go to state 39
-    *               shift and go to state 40
-    /               shift and go to state 41
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
+    exp                            shift and go to state 63
 
 state 45
 
-    (11) atrib -> var = exp ; .
+    (20) exp -> exp * . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    nr              reduce using rule 11 (atrib -> var = exp ; .)
-    if              reduce using rule 11 (atrib -> var = exp ; .)
-    while           reduce using rule 11 (atrib -> var = exp ; .)
-    int             reduce using rule 11 (atrib -> var = exp ; .)
-    string          reduce using rule 11 (atrib -> var = exp ; .)
-    var             reduce using rule 11 (atrib -> var = exp ; .)
-    $end            reduce using rule 11 (atrib -> var = exp ; .)
-    end             reduce using rule 11 (atrib -> var = exp ; .)
-    else            reduce using rule 11 (atrib -> var = exp ; .)
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
+    exp                            shift and go to state 64
 
 state 46
 
-    (10) atrib -> string var = str . ;
+    (21) exp -> exp / . exp
+    (15) exp -> . var
+    (16) exp -> . nr
+    (17) exp -> . bool
+    (18) exp -> . exp + exp
+    (19) exp -> . exp - exp
+    (20) exp -> . exp * exp
+    (21) exp -> . exp / exp
+    (22) exp -> . - exp
+    (23) exp -> . ( exp )
 
-    ;               shift and go to state 61
+    var             shift and go to state 23
+    nr              shift and go to state 24
+    bool            shift and go to state 25
+    -               shift and go to state 26
+    (               shift and go to state 20
 
+    exp                            shift and go to state 65
 
 state 47
 
-    (19) exp -> ( exp ) .
+    (22) exp -> - exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    >               reduce using rule 19 (exp -> ( exp ) .)
-    <               reduce using rule 19 (exp -> ( exp ) .)
-    isEqual         reduce using rule 19 (exp -> ( exp ) .)
-    isNotEqual      reduce using rule 19 (exp -> ( exp ) .)
-    isEqualOrGreater reduce using rule 19 (exp -> ( exp ) .)
-    isEqualOrLess   reduce using rule 19 (exp -> ( exp ) .)
-    +               reduce using rule 19 (exp -> ( exp ) .)
-    -               reduce using rule 19 (exp -> ( exp ) .)
-    *               reduce using rule 19 (exp -> ( exp ) .)
-    /               reduce using rule 19 (exp -> ( exp ) .)
-    )               reduce using rule 19 (exp -> ( exp ) .)
-    ;               reduce using rule 19 (exp -> ( exp ) .)
+    >               reduce using rule 22 (exp -> - exp .)
+    <               reduce using rule 22 (exp -> - exp .)
+    isEqual         reduce using rule 22 (exp -> - exp .)
+    isNotEqual      reduce using rule 22 (exp -> - exp .)
+    isEqualOrGreater reduce using rule 22 (exp -> - exp .)
+    isEqualOrLess   reduce using rule 22 (exp -> - exp .)
+    +               reduce using rule 22 (exp -> - exp .)
+    -               reduce using rule 22 (exp -> - exp .)
+    *               reduce using rule 22 (exp -> - exp .)
+    /               reduce using rule 22 (exp -> - exp .)
+    )               reduce using rule 22 (exp -> - exp .)
+    ;               reduce using rule 22 (exp -> - exp .)
+
+  ! +               [ shift and go to state 43 ]
+  ! -               [ shift and go to state 44 ]
+  ! *               [ shift and go to state 45 ]
+  ! /               [ shift and go to state 46 ]
 
 
 state 48
 
-    (20) ifStatement -> if ( cond ) then . Instrucao end
-    (21) ifStatement -> if ( cond ) then . Instrucao else Instrucao end
-    (3) Instrucao -> . ifStatement
-    (4) Instrucao -> . whileLoop
-    (5) Instrucao -> . atrib
-    (6) Instrucao -> . nr
-    (20) ifStatement -> . if ( cond ) then Instrucao end
-    (21) ifStatement -> . if ( cond ) then Instrucao else Instrucao end
-    (29) whileLoop -> . while ( cond ) then Instrucao end
-    (7) atrib -> . int var ;
-    (8) atrib -> . string var ;
-    (9) atrib -> . int var = exp ;
-    (10) atrib -> . string var = str ;
-    (11) atrib -> . var = exp ;
+    (33) whileLoop -> while ( cond ) . then Instrucao end
 
-    nr              shift and go to state 6
-    if              shift and go to state 7
-    while           shift and go to state 8
-    int             shift and go to state 9
-    string          shift and go to state 11
-    var             shift and go to state 10
+    then            shift and go to state 66
 
-    Instrucao                      shift and go to state 62
-    ifStatement                    shift and go to state 3
-    whileLoop                      shift and go to state 4
-    atrib                          shift and go to state 5
 
 state 49
 
-    (22) cond -> exp > exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (10) atrib -> int var = exp . ;
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    )               reduce using rule 22 (cond -> exp > exp .)
-    +               shift and go to state 38
-    -               shift and go to state 39
-    *               shift and go to state 40
-    /               shift and go to state 41
+    ;               shift and go to state 67
+    +               shift and go to state 43
+    -               shift and go to state 44
+    *               shift and go to state 45
+    /               shift and go to state 46
 
 
 state 50
 
-    (23) cond -> exp < exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (14) atrib -> var = exp ; .
 
-    )               reduce using rule 23 (cond -> exp < exp .)
-    +               shift and go to state 38
-    -               shift and go to state 39
-    *               shift and go to state 40
-    /               shift and go to state 41
+    nr              reduce using rule 14 (atrib -> var = exp ; .)
+    if              reduce using rule 14 (atrib -> var = exp ; .)
+    while           reduce using rule 14 (atrib -> var = exp ; .)
+    int             reduce using rule 14 (atrib -> var = exp ; .)
+    string          reduce using rule 14 (atrib -> var = exp ; .)
+    bool            reduce using rule 14 (atrib -> var = exp ; .)
+    var             reduce using rule 14 (atrib -> var = exp ; .)
+    $end            reduce using rule 14 (atrib -> var = exp ; .)
+    end             reduce using rule 14 (atrib -> var = exp ; .)
+    else            reduce using rule 14 (atrib -> var = exp ; .)
 
 
 state 51
 
-    (24) cond -> exp isEqual exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (11) atrib -> string var = str . ;
 
-    )               reduce using rule 24 (cond -> exp isEqual exp .)
-    +               shift and go to state 38
-    -               shift and go to state 39
-    *               shift and go to state 40
-    /               shift and go to state 41
+    ;               shift and go to state 68
 
 
 state 52
 
-    (25) cond -> exp isNotEqual exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (12) atrib -> bool var = true . ;
 
-    )               reduce using rule 25 (cond -> exp isNotEqual exp .)
-    +               shift and go to state 38
-    -               shift and go to state 39
-    *               shift and go to state 40
-    /               shift and go to state 41
+    ;               shift and go to state 69
 
 
 state 53
 
-    (26) cond -> exp isEqualOrGreater exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (13) atrib -> bool var = false . ;
 
-    )               reduce using rule 26 (cond -> exp isEqualOrGreater exp .)
-    +               shift and go to state 38
-    -               shift and go to state 39
-    *               shift and go to state 40
-    /               shift and go to state 41
+    ;               shift and go to state 70
 
 
 state 54
 
-    (27) cond -> exp isEqualOrLess exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (23) exp -> ( exp ) .
 
-    )               reduce using rule 27 (cond -> exp isEqualOrLess exp .)
-    +               shift and go to state 38
-    -               shift and go to state 39
-    *               shift and go to state 40
-    /               shift and go to state 41
+    >               reduce using rule 23 (exp -> ( exp ) .)
+    <               reduce using rule 23 (exp -> ( exp ) .)
+    isEqual         reduce using rule 23 (exp -> ( exp ) .)
+    isNotEqual      reduce using rule 23 (exp -> ( exp ) .)
+    isEqualOrGreater reduce using rule 23 (exp -> ( exp ) .)
+    isEqualOrLess   reduce using rule 23 (exp -> ( exp ) .)
+    +               reduce using rule 23 (exp -> ( exp ) .)
+    -               reduce using rule 23 (exp -> ( exp ) .)
+    *               reduce using rule 23 (exp -> ( exp ) .)
+    /               reduce using rule 23 (exp -> ( exp ) .)
+    )               reduce using rule 23 (exp -> ( exp ) .)
+    ;               reduce using rule 23 (exp -> ( exp ) .)
 
 
 state 55
 
-    (14) exp -> exp + exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (24) ifStatement -> if ( cond ) then . Instrucao end
+    (25) ifStatement -> if ( cond ) then . Instrucao else Instrucao end
+    (3) Instrucao -> . ifStatement
+    (4) Instrucao -> . whileLoop
+    (5) Instrucao -> . atrib
+    (6) Instrucao -> . nr
+    (24) ifStatement -> . if ( cond ) then Instrucao end
+    (25) ifStatement -> . if ( cond ) then Instrucao else Instrucao end
+    (33) whileLoop -> . while ( cond ) then Instrucao end
+    (7) atrib -> . int var ;
+    (8) atrib -> . string var ;
+    (9) atrib -> . bool var ;
+    (10) atrib -> . int var = exp ;
+    (11) atrib -> . string var = str ;
+    (12) atrib -> . bool var = true ;
+    (13) atrib -> . bool var = false ;
+    (14) atrib -> . var = exp ;
 
-    >               reduce using rule 14 (exp -> exp + exp .)
-    <               reduce using rule 14 (exp -> exp + exp .)
-    isEqual         reduce using rule 14 (exp -> exp + exp .)
-    isNotEqual      reduce using rule 14 (exp -> exp + exp .)
-    isEqualOrGreater reduce using rule 14 (exp -> exp + exp .)
-    isEqualOrLess   reduce using rule 14 (exp -> exp + exp .)
-    +               reduce using rule 14 (exp -> exp + exp .)
-    -               reduce using rule 14 (exp -> exp + exp .)
-    )               reduce using rule 14 (exp -> exp + exp .)
-    ;               reduce using rule 14 (exp -> exp + exp .)
-    *               shift and go to state 40
-    /               shift and go to state 41
+    nr              shift and go to state 6
+    if              shift and go to state 7
+    while           shift and go to state 8
+    int             shift and go to state 9
+    string          shift and go to state 11
+    bool            shift and go to state 12
+    var             shift and go to state 10
 
-  ! *               [ reduce using rule 14 (exp -> exp + exp .) ]
-  ! /               [ reduce using rule 14 (exp -> exp + exp .) ]
-  ! +               [ shift and go to state 38 ]
-  ! -               [ shift and go to state 39 ]
-
+    Instrucao                      shift and go to state 71
+    ifStatement                    shift and go to state 3
+    whileLoop                      shift and go to state 4
+    atrib                          shift and go to state 5
 
 state 56
 
-    (15) exp -> exp - exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (26) cond -> exp > exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    >               reduce using rule 15 (exp -> exp - exp .)
-    <               reduce using rule 15 (exp -> exp - exp .)
-    isEqual         reduce using rule 15 (exp -> exp - exp .)
-    isNotEqual      reduce using rule 15 (exp -> exp - exp .)
-    isEqualOrGreater reduce using rule 15 (exp -> exp - exp .)
-    isEqualOrLess   reduce using rule 15 (exp -> exp - exp .)
-    +               reduce using rule 15 (exp -> exp - exp .)
-    -               reduce using rule 15 (exp -> exp - exp .)
-    )               reduce using rule 15 (exp -> exp - exp .)
-    ;               reduce using rule 15 (exp -> exp - exp .)
-    *               shift and go to state 40
-    /               shift and go to state 41
-
-  ! *               [ reduce using rule 15 (exp -> exp - exp .) ]
-  ! /               [ reduce using rule 15 (exp -> exp - exp .) ]
-  ! +               [ shift and go to state 38 ]
-  ! -               [ shift and go to state 39 ]
+    )               reduce using rule 26 (cond -> exp > exp .)
+    +               shift and go to state 43
+    -               shift and go to state 44
+    *               shift and go to state 45
+    /               shift and go to state 46
 
 
 state 57
 
-    (16) exp -> exp * exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (27) cond -> exp < exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    >               reduce using rule 16 (exp -> exp * exp .)
-    <               reduce using rule 16 (exp -> exp * exp .)
-    isEqual         reduce using rule 16 (exp -> exp * exp .)
-    isNotEqual      reduce using rule 16 (exp -> exp * exp .)
-    isEqualOrGreater reduce using rule 16 (exp -> exp * exp .)
-    isEqualOrLess   reduce using rule 16 (exp -> exp * exp .)
-    +               reduce using rule 16 (exp -> exp * exp .)
-    -               reduce using rule 16 (exp -> exp * exp .)
-    *               reduce using rule 16 (exp -> exp * exp .)
-    /               reduce using rule 16 (exp -> exp * exp .)
-    )               reduce using rule 16 (exp -> exp * exp .)
-    ;               reduce using rule 16 (exp -> exp * exp .)
-
-  ! +               [ shift and go to state 38 ]
-  ! -               [ shift and go to state 39 ]
-  ! *               [ shift and go to state 40 ]
-  ! /               [ shift and go to state 41 ]
+    )               reduce using rule 27 (cond -> exp < exp .)
+    +               shift and go to state 43
+    -               shift and go to state 44
+    *               shift and go to state 45
+    /               shift and go to state 46
 
 
 state 58
 
-    (17) exp -> exp / exp .
-    (14) exp -> exp . + exp
-    (15) exp -> exp . - exp
-    (16) exp -> exp . * exp
-    (17) exp -> exp . / exp
+    (28) cond -> exp isEqual exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    >               reduce using rule 17 (exp -> exp / exp .)
-    <               reduce using rule 17 (exp -> exp / exp .)
-    isEqual         reduce using rule 17 (exp -> exp / exp .)
-    isNotEqual      reduce using rule 17 (exp -> exp / exp .)
-    isEqualOrGreater reduce using rule 17 (exp -> exp / exp .)
-    isEqualOrLess   reduce using rule 17 (exp -> exp / exp .)
-    +               reduce using rule 17 (exp -> exp / exp .)
-    -               reduce using rule 17 (exp -> exp / exp .)
-    *               reduce using rule 17 (exp -> exp / exp .)
-    /               reduce using rule 17 (exp -> exp / exp .)
-    )               reduce using rule 17 (exp -> exp / exp .)
-    ;               reduce using rule 17 (exp -> exp / exp .)
-
-  ! +               [ shift and go to state 38 ]
-  ! -               [ shift and go to state 39 ]
-  ! *               [ shift and go to state 40 ]
-  ! /               [ shift and go to state 41 ]
+    )               reduce using rule 28 (cond -> exp isEqual exp .)
+    +               shift and go to state 43
+    -               shift and go to state 44
+    *               shift and go to state 45
+    /               shift and go to state 46
 
 
 state 59
 
-    (29) whileLoop -> while ( cond ) then . Instrucao end
-    (3) Instrucao -> . ifStatement
-    (4) Instrucao -> . whileLoop
-    (5) Instrucao -> . atrib
-    (6) Instrucao -> . nr
-    (20) ifStatement -> . if ( cond ) then Instrucao end
-    (21) ifStatement -> . if ( cond ) then Instrucao else Instrucao end
-    (29) whileLoop -> . while ( cond ) then Instrucao end
-    (7) atrib -> . int var ;
-    (8) atrib -> . string var ;
-    (9) atrib -> . int var = exp ;
-    (10) atrib -> . string var = str ;
-    (11) atrib -> . var = exp ;
+    (29) cond -> exp isNotEqual exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    nr              shift and go to state 6
-    if              shift and go to state 7
-    while           shift and go to state 8
-    int             shift and go to state 9
-    string          shift and go to state 11
-    var             shift and go to state 10
+    )               reduce using rule 29 (cond -> exp isNotEqual exp .)
+    +               shift and go to state 43
+    -               shift and go to state 44
+    *               shift and go to state 45
+    /               shift and go to state 46
 
-    Instrucao                      shift and go to state 63
-    ifStatement                    shift and go to state 3
-    whileLoop                      shift and go to state 4
-    atrib                          shift and go to state 5
 
 state 60
 
-    (9) atrib -> int var = exp ; .
+    (30) cond -> exp isEqualOrGreater exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    nr              reduce using rule 9 (atrib -> int var = exp ; .)
-    if              reduce using rule 9 (atrib -> int var = exp ; .)
-    while           reduce using rule 9 (atrib -> int var = exp ; .)
-    int             reduce using rule 9 (atrib -> int var = exp ; .)
-    string          reduce using rule 9 (atrib -> int var = exp ; .)
-    var             reduce using rule 9 (atrib -> int var = exp ; .)
-    $end            reduce using rule 9 (atrib -> int var = exp ; .)
-    end             reduce using rule 9 (atrib -> int var = exp ; .)
-    else            reduce using rule 9 (atrib -> int var = exp ; .)
+    )               reduce using rule 30 (cond -> exp isEqualOrGreater exp .)
+    +               shift and go to state 43
+    -               shift and go to state 44
+    *               shift and go to state 45
+    /               shift and go to state 46
 
 
 state 61
 
-    (10) atrib -> string var = str ; .
+    (31) cond -> exp isEqualOrLess exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    nr              reduce using rule 10 (atrib -> string var = str ; .)
-    if              reduce using rule 10 (atrib -> string var = str ; .)
-    while           reduce using rule 10 (atrib -> string var = str ; .)
-    int             reduce using rule 10 (atrib -> string var = str ; .)
-    string          reduce using rule 10 (atrib -> string var = str ; .)
-    var             reduce using rule 10 (atrib -> string var = str ; .)
-    $end            reduce using rule 10 (atrib -> string var = str ; .)
-    end             reduce using rule 10 (atrib -> string var = str ; .)
-    else            reduce using rule 10 (atrib -> string var = str ; .)
+    )               reduce using rule 31 (cond -> exp isEqualOrLess exp .)
+    +               shift and go to state 43
+    -               shift and go to state 44
+    *               shift and go to state 45
+    /               shift and go to state 46
 
 
 state 62
 
-    (20) ifStatement -> if ( cond ) then Instrucao . end
-    (21) ifStatement -> if ( cond ) then Instrucao . else Instrucao end
+    (18) exp -> exp + exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    end             shift and go to state 64
-    else            shift and go to state 65
+    >               reduce using rule 18 (exp -> exp + exp .)
+    <               reduce using rule 18 (exp -> exp + exp .)
+    isEqual         reduce using rule 18 (exp -> exp + exp .)
+    isNotEqual      reduce using rule 18 (exp -> exp + exp .)
+    isEqualOrGreater reduce using rule 18 (exp -> exp + exp .)
+    isEqualOrLess   reduce using rule 18 (exp -> exp + exp .)
+    +               reduce using rule 18 (exp -> exp + exp .)
+    -               reduce using rule 18 (exp -> exp + exp .)
+    )               reduce using rule 18 (exp -> exp + exp .)
+    ;               reduce using rule 18 (exp -> exp + exp .)
+    *               shift and go to state 45
+    /               shift and go to state 46
+
+  ! *               [ reduce using rule 18 (exp -> exp + exp .) ]
+  ! /               [ reduce using rule 18 (exp -> exp + exp .) ]
+  ! +               [ shift and go to state 43 ]
+  ! -               [ shift and go to state 44 ]
 
 
 state 63
 
-    (29) whileLoop -> while ( cond ) then Instrucao . end
+    (19) exp -> exp - exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    end             shift and go to state 66
+    >               reduce using rule 19 (exp -> exp - exp .)
+    <               reduce using rule 19 (exp -> exp - exp .)
+    isEqual         reduce using rule 19 (exp -> exp - exp .)
+    isNotEqual      reduce using rule 19 (exp -> exp - exp .)
+    isEqualOrGreater reduce using rule 19 (exp -> exp - exp .)
+    isEqualOrLess   reduce using rule 19 (exp -> exp - exp .)
+    +               reduce using rule 19 (exp -> exp - exp .)
+    -               reduce using rule 19 (exp -> exp - exp .)
+    )               reduce using rule 19 (exp -> exp - exp .)
+    ;               reduce using rule 19 (exp -> exp - exp .)
+    *               shift and go to state 45
+    /               shift and go to state 46
+
+  ! *               [ reduce using rule 19 (exp -> exp - exp .) ]
+  ! /               [ reduce using rule 19 (exp -> exp - exp .) ]
+  ! +               [ shift and go to state 43 ]
+  ! -               [ shift and go to state 44 ]
 
 
 state 64
 
-    (20) ifStatement -> if ( cond ) then Instrucao end .
+    (20) exp -> exp * exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
 
-    nr              reduce using rule 20 (ifStatement -> if ( cond ) then Instrucao end .)
-    if              reduce using rule 20 (ifStatement -> if ( cond ) then Instrucao end .)
-    while           reduce using rule 20 (ifStatement -> if ( cond ) then Instrucao end .)
-    int             reduce using rule 20 (ifStatement -> if ( cond ) then Instrucao end .)
-    string          reduce using rule 20 (ifStatement -> if ( cond ) then Instrucao end .)
-    var             reduce using rule 20 (ifStatement -> if ( cond ) then Instrucao end .)
-    $end            reduce using rule 20 (ifStatement -> if ( cond ) then Instrucao end .)
-    end             reduce using rule 20 (ifStatement -> if ( cond ) then Instrucao end .)
-    else            reduce using rule 20 (ifStatement -> if ( cond ) then Instrucao end .)
+    >               reduce using rule 20 (exp -> exp * exp .)
+    <               reduce using rule 20 (exp -> exp * exp .)
+    isEqual         reduce using rule 20 (exp -> exp * exp .)
+    isNotEqual      reduce using rule 20 (exp -> exp * exp .)
+    isEqualOrGreater reduce using rule 20 (exp -> exp * exp .)
+    isEqualOrLess   reduce using rule 20 (exp -> exp * exp .)
+    +               reduce using rule 20 (exp -> exp * exp .)
+    -               reduce using rule 20 (exp -> exp * exp .)
+    *               reduce using rule 20 (exp -> exp * exp .)
+    /               reduce using rule 20 (exp -> exp * exp .)
+    )               reduce using rule 20 (exp -> exp * exp .)
+    ;               reduce using rule 20 (exp -> exp * exp .)
+
+  ! +               [ shift and go to state 43 ]
+  ! -               [ shift and go to state 44 ]
+  ! *               [ shift and go to state 45 ]
+  ! /               [ shift and go to state 46 ]
 
 
 state 65
 
-    (21) ifStatement -> if ( cond ) then Instrucao else . Instrucao end
+    (21) exp -> exp / exp .
+    (18) exp -> exp . + exp
+    (19) exp -> exp . - exp
+    (20) exp -> exp . * exp
+    (21) exp -> exp . / exp
+
+    >               reduce using rule 21 (exp -> exp / exp .)
+    <               reduce using rule 21 (exp -> exp / exp .)
+    isEqual         reduce using rule 21 (exp -> exp / exp .)
+    isNotEqual      reduce using rule 21 (exp -> exp / exp .)
+    isEqualOrGreater reduce using rule 21 (exp -> exp / exp .)
+    isEqualOrLess   reduce using rule 21 (exp -> exp / exp .)
+    +               reduce using rule 21 (exp -> exp / exp .)
+    -               reduce using rule 21 (exp -> exp / exp .)
+    *               reduce using rule 21 (exp -> exp / exp .)
+    /               reduce using rule 21 (exp -> exp / exp .)
+    )               reduce using rule 21 (exp -> exp / exp .)
+    ;               reduce using rule 21 (exp -> exp / exp .)
+
+  ! +               [ shift and go to state 43 ]
+  ! -               [ shift and go to state 44 ]
+  ! *               [ shift and go to state 45 ]
+  ! /               [ shift and go to state 46 ]
+
+
+state 66
+
+    (33) whileLoop -> while ( cond ) then . Instrucao end
     (3) Instrucao -> . ifStatement
     (4) Instrucao -> . whileLoop
     (5) Instrucao -> . atrib
     (6) Instrucao -> . nr
-    (20) ifStatement -> . if ( cond ) then Instrucao end
-    (21) ifStatement -> . if ( cond ) then Instrucao else Instrucao end
-    (29) whileLoop -> . while ( cond ) then Instrucao end
+    (24) ifStatement -> . if ( cond ) then Instrucao end
+    (25) ifStatement -> . if ( cond ) then Instrucao else Instrucao end
+    (33) whileLoop -> . while ( cond ) then Instrucao end
     (7) atrib -> . int var ;
     (8) atrib -> . string var ;
-    (9) atrib -> . int var = exp ;
-    (10) atrib -> . string var = str ;
-    (11) atrib -> . var = exp ;
+    (9) atrib -> . bool var ;
+    (10) atrib -> . int var = exp ;
+    (11) atrib -> . string var = str ;
+    (12) atrib -> . bool var = true ;
+    (13) atrib -> . bool var = false ;
+    (14) atrib -> . var = exp ;
 
     nr              shift and go to state 6
     if              shift and go to state 7
     while           shift and go to state 8
     int             shift and go to state 9
     string          shift and go to state 11
+    bool            shift and go to state 12
     var             shift and go to state 10
 
-    Instrucao                      shift and go to state 67
+    Instrucao                      shift and go to state 72
     ifStatement                    shift and go to state 3
     whileLoop                      shift and go to state 4
     atrib                          shift and go to state 5
 
-state 66
-
-    (29) whileLoop -> while ( cond ) then Instrucao end .
-
-    nr              reduce using rule 29 (whileLoop -> while ( cond ) then Instrucao end .)
-    if              reduce using rule 29 (whileLoop -> while ( cond ) then Instrucao end .)
-    while           reduce using rule 29 (whileLoop -> while ( cond ) then Instrucao end .)
-    int             reduce using rule 29 (whileLoop -> while ( cond ) then Instrucao end .)
-    string          reduce using rule 29 (whileLoop -> while ( cond ) then Instrucao end .)
-    var             reduce using rule 29 (whileLoop -> while ( cond ) then Instrucao end .)
-    $end            reduce using rule 29 (whileLoop -> while ( cond ) then Instrucao end .)
-    end             reduce using rule 29 (whileLoop -> while ( cond ) then Instrucao end .)
-    else            reduce using rule 29 (whileLoop -> while ( cond ) then Instrucao end .)
-
-
 state 67
 
-    (21) ifStatement -> if ( cond ) then Instrucao else Instrucao . end
+    (10) atrib -> int var = exp ; .
 
-    end             shift and go to state 68
+    nr              reduce using rule 10 (atrib -> int var = exp ; .)
+    if              reduce using rule 10 (atrib -> int var = exp ; .)
+    while           reduce using rule 10 (atrib -> int var = exp ; .)
+    int             reduce using rule 10 (atrib -> int var = exp ; .)
+    string          reduce using rule 10 (atrib -> int var = exp ; .)
+    bool            reduce using rule 10 (atrib -> int var = exp ; .)
+    var             reduce using rule 10 (atrib -> int var = exp ; .)
+    $end            reduce using rule 10 (atrib -> int var = exp ; .)
+    end             reduce using rule 10 (atrib -> int var = exp ; .)
+    else            reduce using rule 10 (atrib -> int var = exp ; .)
 
 
 state 68
 
-    (21) ifStatement -> if ( cond ) then Instrucao else Instrucao end .
+    (11) atrib -> string var = str ; .
 
-    nr              reduce using rule 21 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
-    if              reduce using rule 21 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
-    while           reduce using rule 21 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
-    int             reduce using rule 21 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
-    string          reduce using rule 21 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
-    var             reduce using rule 21 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
-    $end            reduce using rule 21 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
-    end             reduce using rule 21 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
-    else            reduce using rule 21 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
+    nr              reduce using rule 11 (atrib -> string var = str ; .)
+    if              reduce using rule 11 (atrib -> string var = str ; .)
+    while           reduce using rule 11 (atrib -> string var = str ; .)
+    int             reduce using rule 11 (atrib -> string var = str ; .)
+    string          reduce using rule 11 (atrib -> string var = str ; .)
+    bool            reduce using rule 11 (atrib -> string var = str ; .)
+    var             reduce using rule 11 (atrib -> string var = str ; .)
+    $end            reduce using rule 11 (atrib -> string var = str ; .)
+    end             reduce using rule 11 (atrib -> string var = str ; .)
+    else            reduce using rule 11 (atrib -> string var = str ; .)
+
+
+state 69
+
+    (12) atrib -> bool var = true ; .
+
+    nr              reduce using rule 12 (atrib -> bool var = true ; .)
+    if              reduce using rule 12 (atrib -> bool var = true ; .)
+    while           reduce using rule 12 (atrib -> bool var = true ; .)
+    int             reduce using rule 12 (atrib -> bool var = true ; .)
+    string          reduce using rule 12 (atrib -> bool var = true ; .)
+    bool            reduce using rule 12 (atrib -> bool var = true ; .)
+    var             reduce using rule 12 (atrib -> bool var = true ; .)
+    $end            reduce using rule 12 (atrib -> bool var = true ; .)
+    end             reduce using rule 12 (atrib -> bool var = true ; .)
+    else            reduce using rule 12 (atrib -> bool var = true ; .)
+
+
+state 70
+
+    (13) atrib -> bool var = false ; .
+
+    nr              reduce using rule 13 (atrib -> bool var = false ; .)
+    if              reduce using rule 13 (atrib -> bool var = false ; .)
+    while           reduce using rule 13 (atrib -> bool var = false ; .)
+    int             reduce using rule 13 (atrib -> bool var = false ; .)
+    string          reduce using rule 13 (atrib -> bool var = false ; .)
+    bool            reduce using rule 13 (atrib -> bool var = false ; .)
+    var             reduce using rule 13 (atrib -> bool var = false ; .)
+    $end            reduce using rule 13 (atrib -> bool var = false ; .)
+    end             reduce using rule 13 (atrib -> bool var = false ; .)
+    else            reduce using rule 13 (atrib -> bool var = false ; .)
+
+
+state 71
+
+    (24) ifStatement -> if ( cond ) then Instrucao . end
+    (25) ifStatement -> if ( cond ) then Instrucao . else Instrucao end
+
+    end             shift and go to state 73
+    else            shift and go to state 74
+
+
+state 72
+
+    (33) whileLoop -> while ( cond ) then Instrucao . end
+
+    end             shift and go to state 75
+
+
+state 73
+
+    (24) ifStatement -> if ( cond ) then Instrucao end .
+
+    nr              reduce using rule 24 (ifStatement -> if ( cond ) then Instrucao end .)
+    if              reduce using rule 24 (ifStatement -> if ( cond ) then Instrucao end .)
+    while           reduce using rule 24 (ifStatement -> if ( cond ) then Instrucao end .)
+    int             reduce using rule 24 (ifStatement -> if ( cond ) then Instrucao end .)
+    string          reduce using rule 24 (ifStatement -> if ( cond ) then Instrucao end .)
+    bool            reduce using rule 24 (ifStatement -> if ( cond ) then Instrucao end .)
+    var             reduce using rule 24 (ifStatement -> if ( cond ) then Instrucao end .)
+    $end            reduce using rule 24 (ifStatement -> if ( cond ) then Instrucao end .)
+    end             reduce using rule 24 (ifStatement -> if ( cond ) then Instrucao end .)
+    else            reduce using rule 24 (ifStatement -> if ( cond ) then Instrucao end .)
+
+
+state 74
+
+    (25) ifStatement -> if ( cond ) then Instrucao else . Instrucao end
+    (3) Instrucao -> . ifStatement
+    (4) Instrucao -> . whileLoop
+    (5) Instrucao -> . atrib
+    (6) Instrucao -> . nr
+    (24) ifStatement -> . if ( cond ) then Instrucao end
+    (25) ifStatement -> . if ( cond ) then Instrucao else Instrucao end
+    (33) whileLoop -> . while ( cond ) then Instrucao end
+    (7) atrib -> . int var ;
+    (8) atrib -> . string var ;
+    (9) atrib -> . bool var ;
+    (10) atrib -> . int var = exp ;
+    (11) atrib -> . string var = str ;
+    (12) atrib -> . bool var = true ;
+    (13) atrib -> . bool var = false ;
+    (14) atrib -> . var = exp ;
+
+    nr              shift and go to state 6
+    if              shift and go to state 7
+    while           shift and go to state 8
+    int             shift and go to state 9
+    string          shift and go to state 11
+    bool            shift and go to state 12
+    var             shift and go to state 10
+
+    Instrucao                      shift and go to state 76
+    ifStatement                    shift and go to state 3
+    whileLoop                      shift and go to state 4
+    atrib                          shift and go to state 5
+
+state 75
+
+    (33) whileLoop -> while ( cond ) then Instrucao end .
+
+    nr              reduce using rule 33 (whileLoop -> while ( cond ) then Instrucao end .)
+    if              reduce using rule 33 (whileLoop -> while ( cond ) then Instrucao end .)
+    while           reduce using rule 33 (whileLoop -> while ( cond ) then Instrucao end .)
+    int             reduce using rule 33 (whileLoop -> while ( cond ) then Instrucao end .)
+    string          reduce using rule 33 (whileLoop -> while ( cond ) then Instrucao end .)
+    bool            reduce using rule 33 (whileLoop -> while ( cond ) then Instrucao end .)
+    var             reduce using rule 33 (whileLoop -> while ( cond ) then Instrucao end .)
+    $end            reduce using rule 33 (whileLoop -> while ( cond ) then Instrucao end .)
+    end             reduce using rule 33 (whileLoop -> while ( cond ) then Instrucao end .)
+    else            reduce using rule 33 (whileLoop -> while ( cond ) then Instrucao end .)
+
+
+state 76
+
+    (25) ifStatement -> if ( cond ) then Instrucao else Instrucao . end
+
+    end             shift and go to state 77
+
+
+state 77
+
+    (25) ifStatement -> if ( cond ) then Instrucao else Instrucao end .
+
+    nr              reduce using rule 25 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
+    if              reduce using rule 25 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
+    while           reduce using rule 25 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
+    int             reduce using rule 25 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
+    string          reduce using rule 25 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
+    bool            reduce using rule 25 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
+    var             reduce using rule 25 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
+    $end            reduce using rule 25 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
+    end             reduce using rule 25 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
+    else            reduce using rule 25 (ifStatement -> if ( cond ) then Instrucao else Instrucao end .)
 

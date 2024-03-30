@@ -57,6 +57,7 @@ class Exp:
     NEG: Case["Exp"]
     VAR: Case[str]
     CONST: Case[int]
+    BOOL: Case[bool]
 
     def __repr__(self):
         return str(self)
@@ -70,6 +71,7 @@ class Exp:
             neg=lambda x: '-' + str(x) if pretty_print else "NEG (" + str(x) + ")",
             var=lambda x: x if pretty_print else "VAR (" + x + ")",
             const=lambda x: str(x) if pretty_print else "CONS (" + str(x) + ")",
+            bool=lambda x: str(x) if pretty_print else "BOOL (" + str(x) + ")"
         )
 
 
