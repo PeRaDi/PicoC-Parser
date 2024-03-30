@@ -47,7 +47,7 @@ def p_declare(p):
              | string var ';'
              | bool var ';'
      """
-    p[0] = pa.Inst.ATRIB(p[2])
+    p[0] = pa.Inst.DECL(p[1], p[2])
 
 def p_declare_atrib(p):
     """atrib : int var '=' exp ';'
@@ -55,11 +55,11 @@ def p_declare_atrib(p):
              | bool var '=' true ';'
              | bool var '=' false ';'
      """
-    p[0] = pa.Inst.ATRIB(p[2], p[4])
+    p[0] = pa.Inst.ATRIB(p[1], p[2], p[4])
 
 def p_atrib(p):
     """atrib : var '=' exp ';' """
-    p[0] = pa.Inst.ATRIB(p[1], p[3])
+    p[0] = pa.Inst.ATRIB("VAR", p[1], p[3])
 
 def p_exp_var(p):
     """exp : var"""
@@ -190,10 +190,6 @@ if __name__ == '__main__':
         end
     """
 
-    data = """
-        bool x = false;
-    """
-
-    pa.pretty_print = False
+    pa.pretty_print = True
     ast = parse(data)
     print(ast)

@@ -31,7 +31,8 @@ class Bloco:
 
 @adt
 class Inst:
-    ATRIB: Case[str, "Exp"]
+    DECL: Case[str, str]
+    ATRIB: Case[str, str, "Exp"]
     WHILE_LOOP: Case["Exp", "Bloco"]
     ITE: Case["Exp", "Bloco", "Bloco"]
     EMPTY: Case
@@ -41,7 +42,8 @@ class Inst:
 
     def __str__(self):
         return self.match(
-            atrib=lambda s, e: s + ' = ' + str(e) if pretty_print else "ATRIB (" + s + ", " + str(e) + ")",
+            decl=lambda t, s: t + " " + s if pretty_print else "DECL (" + t + ", " + s + ")",
+            atrib=lambda t, s, e: t + " " + s + ' = ' + str(e) if pretty_print else "ATRIB (" + t + ", " + s + ", " + str(e) + ")",
             while_loop=lambda e, b: 'while (' + str(e) + ') { ' + str(b) + ' }' if pretty_print else "WHILE (" + str(e) + ", " + str(b) + ")",
             ite=lambda e, b1, b2:  'if (' + str(e) + ') { ' + str(b1) + ' }' + (' else { ' + str(b2) + ' }' if b2 != Inst.EMPTY() else '') if pretty_print else "ITE (" + str(e) + ", " + str(b1) + ", " + str(b2) + ")",
             empty=lambda: "" if pretty_print else "EMPTY"
