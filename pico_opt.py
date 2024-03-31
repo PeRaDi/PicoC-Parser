@@ -48,12 +48,6 @@ def optDiv(x, y):
     else:
         return st.StrategicError
 
-def optBool(x):
-    if (x == pa.Exp.BOOL()):
-        return x.bool()
-    else:
-        return st.StrategicError
-
 def expr(exp):
     x = exp.match(
         add=lambda x, y: optAdd(x, y),
@@ -90,6 +84,14 @@ def conditional(cond):
     else:
         return x
 
+def step_expr(x):
+    return st.adhocTP(st.failTP, expr, x)
+
+def step_cond(x):
+    return st.adhocTP(st.failTP, conditional, x)
+
 def optimize(ast):
     z = zp.obj(ast)
-    return st.innermost(lambda x: st.adhocTP(st.failTP, expr, x), z).node()
+    #return st.innermost(lambda x: st.adhocTP(st.failTP, expr, x), z).node()
+    #return st.innermost(lambda x: step_cond(x), z).node()
+    return st.innermost(lambda x: step_cond(step_expr(x)), z).node()
