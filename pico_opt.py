@@ -48,6 +48,12 @@ def optDiv(x, y):
     else:
         return st.StrategicError
 
+def optBool(x):
+    if (x == pa.Exp.BOOL()):
+        return x.bool()
+    else:
+        return st.StrategicError
+
 def expr(exp):
     x = exp.match(
         add=lambda x, y: optAdd(x, y),
@@ -55,8 +61,29 @@ def expr(exp):
         mul=lambda x, y: optMul(x, y),
         div=lambda x, y: optDiv(x, y),
         neg=lambda x: optNeg(x),
+        bool=lambda x: st.StrategicError,
         var=lambda x: st.StrategicError,
-        const=lambda x: st.StrategicError
+        const=lambda x: st.StrategicError,
+    )
+    if x is st.StrategicError:
+        raise x
+    else:
+        return x
+
+def optEqual(x, y):
+    if y == pa.Exp.BOOL("true"):
+        return x
+    else:
+        return st.StrategicError
+
+def conditional(cond):
+    x = cond.match(
+        equal=lambda x, y: optEqual(x, y),
+        not_equal=lambda x, y: st.StrategicError,
+        greater=lambda x, y: st.StrategicError,
+        greater_equal=lambda x, y: st.StrategicError,
+        less=lambda x, y: st.StrategicError,
+        less_equal=lambda x, y: st.StrategicError,
     )
     if x is st.StrategicError:
         raise x
