@@ -71,7 +71,9 @@ def p_exp_const(p):
     p[0] = pa.Exp.CONST(p[1])
 
 def p_exp_bool(p):
-    """exp : bool"""
+    """exp : true
+            | false
+    """
     p[0] = pa.Exp.BOOL(p[1])
 
 
@@ -172,6 +174,12 @@ if __name__ == '__main__':
         if(z <= (x + 2 * y)) then 
              z = (1 + 3) * y;
         end
+        
+        if (w == true) then
+            x = y;
+        else (w == false) then
+            x = y;
+        end        
         
         if(1 == 0) then 
             int x = 1 + 3;

@@ -13,6 +13,14 @@ def main():
              z = (1 + 3) * y;
         end
         
+        if (w == true) then
+            x = y;
+        end
+        
+        if (g == false) then
+            k = y;
+        end
+        
         if(1 == 0) then 
             int x = 1 + 3;
         else 
