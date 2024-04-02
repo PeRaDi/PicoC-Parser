@@ -42,13 +42,13 @@ def main():
         x = y * ((2 + 4) / 2);
     """
 
-    # data = """
-    #     if ((2 + 3) == true) then
-    #         x = 1;
-    #     end
-    # """
+    data = """
+        if ((2 + 3) == true) then
+            x = 1;
+        end
+    """
 
-    pa.pretty_print = False
+    pa.pretty_print = True
     ast = p.parse(data)
     print(f"AST: {ast}")
     opt = op.optimize(ast)
