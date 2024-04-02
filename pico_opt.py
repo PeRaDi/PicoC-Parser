@@ -23,11 +23,25 @@ def optSub(x, y):
         return st.StrategicError
 
 def optNeg(x):
-    if (lambda b: x == pa.Exp.CONST()):
-        return pa.Exp.CONST(-x.const())
-    elif (lambda a: x == pa.Exp.NEG()):
-        return x.neg()
+    if (lambda a: x == pa.Exp.NEG()):
+        # print(f"Neg: {str(x)}")
+        val = x.neg()
+        # print(f"N: {str(x)} -> {str(val)}")
+        return val
+    elif (lambda b: x == pa.Exp.CONST()):
+        val = pa.Exp.CONST(-x.const())
+        # print(f"NC: {str(x)} -> {str(val)}")
+        return val
+    # if (lambda b: x == pa.Exp.CONST()):
+    #     val = pa.Exp.CONST(-x.const())
+    #     print(f"NC: {str(val)}")
+    #     return val
+    # elif (lambda a: x == pa.Exp.NEG()):
+    #     val = x.neg()
+    #     print(f"N: {str(val)}")
+    #     return val
     else:
+        # print(f"O: {str(x)}")
         return st.StrategicError
 
 def optMul(x, y):
@@ -49,6 +63,7 @@ def optDiv(x, y):
         return st.StrategicError
 
 def expr(exp):
+    # print(f"EXP: {exp}")
     x = exp.match(
         add=lambda x, y: optAdd(x, y),
         sub=lambda x, y: optSub(x, y),
@@ -62,6 +77,7 @@ def expr(exp):
     if x is st.StrategicError:
         raise x
     else:
+        # print(f"X: {x}")
         return x
 
 def optEqual(x, y):
@@ -91,7 +107,13 @@ def step_cond(x):
     return st.adhocTP(st.failTP, conditional, x)
 
 def optimize(ast):
+    if len(ast) == 1:
+        # Esta condicional é porque gera erro de list is not iterable com o zipper
+        ast.append(pa.Inst.EMPTY())
     z = zp.obj(ast)
     #return st.innermost(lambda x: st.adhocTP(st.failTP, expr, x), z).node()
+    result = st.innermost(lambda x: step_expr(x), z).node()
+    result.pop()
+    return result
     #return st.innermost(lambda x: step_cond(x), z).node()
-    return st.innermost(lambda x: step_cond(step_expr(x)), z).node()
+    # return st.innermost(lambda x: step_cond(step_expr(x)), z).node()

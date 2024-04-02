@@ -38,7 +38,7 @@ class Inst:
     EMPTY: Case
 
     def __repr__(self):
-        return str(self)
+        return str(self) if pretty_print else "INST (" + str(self) + ")"
 
     def __str__(self):
         return self.match(

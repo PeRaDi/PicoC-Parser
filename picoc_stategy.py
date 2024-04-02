@@ -38,11 +38,21 @@ def main():
         end
     """
 
-    pa.pretty_print = True
+    data = """
+        x = y * ((2 + 4) / 2);
+    """
+
+    # data = """
+    #     if ((2 + 3) == true) then
+    #         x = 1;
+    #     end
+    # """
+
+    pa.pretty_print = False
     ast = p.parse(data)
-    print(ast)
+    print(f"AST: {ast}")
     opt = op.optimize(ast)
-    print(opt)
+    print(f"OPT: {opt}")
 
 if __name__ == "__main__":
     main()
