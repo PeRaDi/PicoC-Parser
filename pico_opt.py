@@ -81,9 +81,8 @@ def expr(exp):
         return x
 
 def optEqual(x, y):
-    #print(f"x: {str(x)} and y: {str(y)}")
+    # print(f"x: {str(x)} and y: {str(y)}")
     if y == pa.Exp.BOOL("true"):
-        # return expr(x)
         return x
     else:
         return st.StrategicError
@@ -115,10 +114,11 @@ def optimize(ast):
     z = zp.obj(ast)
     #return st.innermost(lambda x: st.adhocTP(st.failTP, expr, x), z).node()
     #result = st.innermost(lambda x: step_expr(x), z).node()
-    #result = st.innermost(lambda x: step_cond(x), z).node()
+    # result = st.innermost(lambda x: step_cond(x), z).node() # funciona se tiver var == true mas não para exp == true
 
     # Pelo que percebi na aula o inner most tratava desses casos sem preocupar com a ordem (pelo menos em haskell?, confirmar isso com o professor)
-    #result = st.innermost(lambda x: step_cond(step_expr(x)), z).node()
+    # result = st.innermost(lambda x: step_cond(step_expr(x)), z).node()
+    # funciona se tiver exp == true mas não para var == true
     result = st.innermost(lambda x: step_expr(step_cond(x)), z).node()
     result.pop()
     return result

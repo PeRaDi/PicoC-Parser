@@ -43,7 +43,7 @@ def main():
     """
 
     data = """
-        if ((2 + 3) == true) then
+        if (x == true) then
             x = 1;
         end
     """
