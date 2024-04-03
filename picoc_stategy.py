@@ -48,11 +48,30 @@ def main():
         end
     """
 
+    data = """
+        if(1 == 0) then
+            int x = 1 + 3;
+        else
+            int x = 2;
+        end
+
+        if (z <= (x + 2 * y)) then
+            z = (1 + 3) * y;
+        end
+        
+        if (w == true) then
+            x = y;
+        else 
+            x = y;
+        end
+    """
+
     pa.pretty_print = True
     ast = p.parse(data)
     print(f"AST: {ast}")
     opt = op.optimize(ast)
     print(f"OPT: {opt}")
+
 
 if __name__ == "__main__":
     main()

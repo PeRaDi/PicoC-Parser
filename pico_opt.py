@@ -108,9 +108,13 @@ def step_cond(x):
     return st.adhocTP(st.failTP, conditional, x)
 
 def optimize(ast):
+    empty_added = False
+
     if len(ast) == 1:
         # Esta condicional é porque gera erro de list is not iterable com o zipper
         ast.append(pa.Inst.EMPTY())
+        empty_added = True
+
     z = zp.obj(ast)
     #return st.innermost(lambda x: st.adhocTP(st.failTP, expr, x), z).node()
     #result = st.innermost(lambda x: step_expr(x), z).node()
@@ -120,5 +124,8 @@ def optimize(ast):
     # result = st.innermost(lambda x: step_cond(step_expr(x)), z).node()
     # funciona se tiver exp == true mas não para var == true
     result = st.innermost(lambda x: step_expr(step_cond(x)), z).node()
-    result.pop()
+
+    if empty_added:
+        result.pop()
+
     return result
