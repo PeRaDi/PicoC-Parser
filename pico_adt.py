@@ -99,5 +99,5 @@ class Cond:
             less_equal=lambda x, y: str(x) + ' <= ' + str(y) if pretty_print else "LESS_EQUAL (" + str(x) + ", " + str(y) + ")",
         )
 
-def picoc_to_code(ast: list[Inst]):
+def picoc_to_code(ast: list[Inst]) -> str:
     return "\n".join(str(c) for c in ast if c)

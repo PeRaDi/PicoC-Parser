@@ -90,6 +90,7 @@ def main():
     print(f"AST2: {ast2}")
     print(f"OPT2: {op.optimize(ast2)}")
 
+    print(ast == ast2)
 
 if __name__ == "__main__":
     main()

@@ -159,7 +159,7 @@ precedence = (
     ('right', 'UMINUS'),  # Unary minus operator
 )
 
-def parse(data):
+def parse(data) -> list[pa.Inst]:
     parser = yacc.yacc()
     ast = parser.parse(data)
     return ast
