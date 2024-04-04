@@ -66,15 +66,29 @@ def main():
     #     end
     # """
 
+    data = """
+        int x = 2 + 3 * 5;
+        if(1 == 0) then
+            int x = 1 + 3;
+        end
+        z = 3;
+    """
+
     pa.pretty_print = True
     ast = p.parse(data)
     print(f"AST: {ast}")
 
+    opt = op.optimize(ast)
+    print(f"OPT: {opt}")
+
+    print("\n")
+
     code = "\n".join(str(c) for c in ast if c)
     print(f"CODE: \n{code}\n")
 
-    opt = op.optimize(ast)
-    print(f"OPT: {opt}")
+    ast2 = p.parse(code)
+    print(f"AST2: {ast2}")
+    print(f"OPT2: {op.optimize(ast2)}")
 
 
 if __name__ == "__main__":
