@@ -106,7 +106,7 @@ def p_exp_unary_minus(p):
 def p_exp_group(p):
     """exp : '(' exp ')'
     """
-    p[0] = p[2]
+    p[0] = pa.Exp.GROUP(p[2])
 
 
 def p_ifThen(p):

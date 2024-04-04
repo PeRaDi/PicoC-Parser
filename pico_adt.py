@@ -57,6 +57,7 @@ class Exp:
     MUL: Case["Exp", "Exp"]
     DIV: Case["Exp", "Exp"]
     NEG: Case["Exp"]
+    GROUP: Case["Exp"]
     VAR: Case[str]
     CONST: Case[int]
     BOOL: Case[bool]
@@ -71,6 +72,7 @@ class Exp:
             mul=lambda x, y: str(x) + ' * ' + str(y) if pretty_print else "MUL (" + str(x) + ", " + str(y) + ")",
             div=lambda x, y: str(x) + ' / ' + str(y) if pretty_print else "DIV (" + str(x) + ", " + str(y) + ")",
             neg=lambda x: '-' + str(x) if pretty_print else "NEG (" + str(x) + ")",
+            group=lambda e: f"({str(e)})" if pretty_print else "GROUP (" + str(e) + ")",
             var=lambda x: x if pretty_print else "VAR (" + x + ")",
             const=lambda x: str(x) if pretty_print else "CONS (" + str(x) + ")",
             bool=lambda x: str(x) if pretty_print else "BOOL (" + str(x) + ")"

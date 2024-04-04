@@ -66,31 +66,31 @@ def main():
     #     end
     # """
 
-    data = """
-        int x = 2 + 3 * 5;
-        if(1 == 0) then
-            int x = 1 + 3;
-        end
-        z = 3;
-    """
+    # data = """
+    #     int x = 2 + 3 * 5;
+    #     if(1 == 0) then
+    #         int x = 1 + 3;
+    #     end
+    #     z = 3;
+    # """
 
     pa.pretty_print = True
     ast = p.parse(data)
-    print(f"AST: {ast}")
-
-    opt = op.optimize(ast)
-    print(f"OPT: {opt}")
-
-    print("\n")
-
     code = pa.picoc_to_code(ast)
-    print(f"CODE: \n{code}\n")
-
+    opt = op.optimize(ast)
     ast2 = p.parse(code)
-    print(f"AST2: {ast2}")
-    print(f"OPT2: {op.optimize(ast2)}")
+    opt2 = op.optimize(ast2)
 
+    pa.pretty_print = False
+    print(f"AST: {ast}")
+    print(f"OPT: {opt}")
+    print("\n")
+    print(f"AST2: {ast2}")
+    print(f"OPT2: {opt2}")
+    print("\n")
     print(ast == ast2)
+    print(opt == opt2)
+    print(f"CODE: \n{code}\n")
 
 if __name__ == "__main__":
     main()

@@ -70,6 +70,7 @@ def expr(exp):
         mul=lambda x, y: optMul(x, y),
         div=lambda x, y: optDiv(x, y),
         neg=lambda x: optNeg(x),
+        group=lambda x: st.StrategicError,
         bool=lambda x: st.StrategicError,
         var=lambda x: st.StrategicError,
         const=lambda x: st.StrategicError,
