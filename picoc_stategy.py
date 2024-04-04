@@ -38,37 +38,41 @@ def main():
         end
     """
 
-    data = """
-        x = y * ((2 + 4) / 2);
-    """
-
-    data = """
-        if (x == true) then
-            x = 1;
-        end
-    """
-
-    data = """
-        if(1 == 0) then
-            int x = 1 + 3;
-        else
-            int x = 2;
-        end
-
-        if (z <= (x + 2 * y)) then
-            z = (1 + 3) * y;
-        end
-        
-        if (w == true) then
-            x = y;
-        else 
-            x = y;
-        end
-    """
+    # data = """
+    #     x = y * ((2 + 4) / 2);
+    # """
+    #
+    # data = """
+    #     if (x == true) then
+    #         x = 1;
+    #     end
+    # """
+    #
+    # data = """
+    #     if(1 == 0) then
+    #         int x = 1 + 3;
+    #     else
+    #         int x = 2;
+    #     end
+    #
+    #     if (z <= (x + 2 * y)) then
+    #         z = (1 + 3) * y;
+    #     end
+    #
+    #     if (w == true) then
+    #         x = y;
+    #     else
+    #         x = y;
+    #     end
+    # """
 
     pa.pretty_print = True
     ast = p.parse(data)
     print(f"AST: {ast}")
+
+    code = "\n".join(str(c) for c in ast if c)
+    print(f"CODE: \n{code}\n")
+
     opt = op.optimize(ast)
     print(f"OPT: {opt}")
 

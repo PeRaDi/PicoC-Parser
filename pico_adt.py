@@ -1,7 +1,7 @@
 from adt import adt, Case
 
 pretty_print = False
-
+statement_end_symbol = ";"
 
 @adt
 class PicoC:
@@ -42,10 +42,10 @@ class Inst:
 
     def __str__(self):
         return self.match(
-            decl=lambda t, s: t + " " + s if pretty_print else "DECL (" + t + ", " + s + ")",
-            atrib=lambda t, s, e: t + " " + s + ' = ' + str(e) if pretty_print else "ATRIB (" + t + ", " + s + ", " + str(e) + ")",
-            while_loop=lambda e, b: 'while (' + str(e) + ') { ' + str(b) + ' }' if pretty_print else "WHILE (" + str(e) + ", " + str(b) + ")",
-            ite=lambda e, b1, b2:  'if (' + str(e) + ') { ' + str(b1) + ' }' + (' else { ' + str(b2) + ' }' if b2 != Inst.EMPTY() else '') if pretty_print else "ITE (" + str(e) + ", " + str(b1) + ", " + str(b2) + ")",
+            decl=lambda t, s: f"{t} {s}{statement_end_symbol}" if pretty_print else "DECL (" + t + ", " + s + ")",
+            atrib=lambda t, s, e: f"{t} {s} = {str(e)}{statement_end_symbol}" if pretty_print else "ATRIB (" + t + ", " + s + ", " + str(e) + ")",
+            while_loop=lambda e, b: f"while ({str(e)}) then {str(b)} end" if pretty_print else "WHILE (" + str(e) + ", " + str(b) + ")",
+            ite=lambda e, b1, b2: f"if ({str(e)}) then {str(b1)} {' else ' + str(b2) if b2 != Inst.EMPTY() else ''} end" if pretty_print else "ITE (" + str(e) + ", " + str(b1) + ", " + str(b2) + ")",
             empty=lambda: "" if pretty_print else "EMPTY"
         )
 

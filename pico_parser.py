@@ -59,7 +59,7 @@ def p_declare_atrib(p):
 
 def p_atrib(p):
     """atrib : var '=' exp ';' """
-    p[0] = pa.Inst.ATRIB("VAR", p[1], p[3])
+    p[0] = pa.Inst.ATRIB("", p[1], p[3])
 
 def p_exp_var(p):
     """exp : var"""
