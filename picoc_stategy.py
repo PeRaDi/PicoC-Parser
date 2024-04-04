@@ -83,7 +83,7 @@ def main():
 
     print("\n")
 
-    code = "\n".join(str(c) for c in ast if c)
+    code = pa.picoc_to_code(ast)
     print(f"CODE: \n{code}\n")
 
     ast2 = p.parse(code)
