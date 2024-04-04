@@ -101,11 +101,11 @@ def conditional(cond):
     else:
         return x
 
-def step_expr(x):
-    return st.adhocTP(st.failTP, expr, x)
+def step_expr(x, on_fail = st.failTP):
+    return st.adhocTP(on_fail, expr, x)
 
-def step_cond(x):
-    return st.adhocTP(st.failTP, conditional, x)
+def step_cond(x, on_fail = st.failTP):
+    return st.adhocTP(on_fail, conditional, x)
 
 def optimize(ast):
     empty_added = False
@@ -116,15 +116,12 @@ def optimize(ast):
         empty_added = True
 
     z = zp.obj(ast)
-    #return st.innermost(lambda x: st.adhocTP(st.failTP, expr, conditional(x)), z).node()
-    #return st.innermost(lambda x: st.adhocTP(st.failTP, lambda y: st.adhocTP(conditional, expr, y), x), z).node()
-    result = st.innermost(lambda x: step_expr(x), z).node()
-    #result = st.innermost(lambda x: step_cond(x), z).node() # funciona se tiver var == true mas não para exp == true
 
-    # Pelo que percebi na aula o inner most tratava desses casos sem preocupar com a ordem (pelo menos em haskell?, confirmar isso com o professor)
-    #result = st.innermost(lambda x: step_cond(step_expr(x)), z).node()
-    # funciona se tiver exp == true mas não para var == true
-    #result = st.innermost(lambda x: step_expr(step_cond(x)), z).node()
+    # Todas essas 4 implementações estão a funcionar
+    #result = st.innermost(lambda x: st.adhocTP(lambda y: st.adhocTP(st.failTP, conditional, y), expr, x), z).node()
+    #result = st.innermost(lambda x: st.adhocTP(lambda y: step_cond(y), expr, x), z).node()
+    #result = st.innermost(lambda x: step_expr(x, on_fail=lambda y: step_cond(y)), z).node()
+    result = st.innermost(lambda x: step_expr(x, step_cond), z).node()
 
     if empty_added:
         result.pop()
