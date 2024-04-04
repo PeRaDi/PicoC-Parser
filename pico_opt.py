@@ -116,14 +116,15 @@ def optimize(ast):
         empty_added = True
 
     z = zp.obj(ast)
-    #return st.innermost(lambda x: st.adhocTP(st.failTP, expr, x), z).node()
-    #result = st.innermost(lambda x: step_expr(x), z).node()
-    # result = st.innermost(lambda x: step_cond(x), z).node() # funciona se tiver var == true mas não para exp == true
+    #return st.innermost(lambda x: st.adhocTP(st.failTP, expr, conditional(x)), z).node()
+    #return st.innermost(lambda x: st.adhocTP(st.failTP, lambda y: st.adhocTP(conditional, expr, y), x), z).node()
+    result = st.innermost(lambda x: step_expr(x), z).node()
+    #result = st.innermost(lambda x: step_cond(x), z).node() # funciona se tiver var == true mas não para exp == true
 
     # Pelo que percebi na aula o inner most tratava desses casos sem preocupar com a ordem (pelo menos em haskell?, confirmar isso com o professor)
-    # result = st.innermost(lambda x: step_cond(step_expr(x)), z).node()
+    #result = st.innermost(lambda x: step_cond(step_expr(x)), z).node()
     # funciona se tiver exp == true mas não para var == true
-    result = st.innermost(lambda x: step_expr(step_cond(x)), z).node()
+    #result = st.innermost(lambda x: step_expr(step_cond(x)), z).node()
 
     if empty_added:
         result.pop()
