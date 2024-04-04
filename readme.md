@@ -1,6 +1,7 @@
 
-Professor José Nuno:
-* jose.n.macedo@inesctec.pt
+# PicoC
 
-Emanuel (pystrategy):
-* jose.e.rodrigues@inesctec.pt
+### Elementos da Equipa
+
+* Edgar Guilherme (PG54469)
+* Pedro Braga (PG54471)
