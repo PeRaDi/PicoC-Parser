@@ -38,9 +38,15 @@ def p_Instrucao(p):
                 | whileLoop
                 | atrib
                 | nr
+                | returnStatement
     """
     p[0] = p[1]
 
+
+def p_returnStatement(p):
+    """returnStatement : return exp ';'
+    """
+    p[0] = pa.Exp.RETURNS(p[2])
 
 def p_declare(p):
     """atrib : int var ';'

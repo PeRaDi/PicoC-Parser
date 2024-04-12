@@ -46,7 +46,7 @@ class Inst:
             atrib=lambda t, s, e: f"{t + ' ' if t else ''}{s} = {str(e)}{statement_end_symbol}" if pretty_print else "ATRIB (" + t + ", " + s + ", " + str(e) + ")",
             while_loop=lambda e, b: f"while ({str(e)}) then {str(b)} end" if pretty_print else "WHILE (" + str(e) + ", " + str(b) + ")",
             ite=lambda e, b1, b2: f"if ({str(e)}) then {str(b1)} {' else ' + str(b2) if b2 != Inst.EMPTY() else ''} end" if pretty_print else "ITE (" + str(e) + ", " + str(b1) + ", " + str(b2) + ")",
-            empty=lambda: "" if pretty_print else "EMPTY"
+            empty=lambda: "" if pretty_print else "EMPTY",
         )
 
 
@@ -61,6 +61,7 @@ class Exp:
     VAR: Case[str]
     CONST: Case[int]
     BOOL: Case[bool]
+    RETURNS: Case["Exp"]
 
     def __repr__(self):
         return str(self)
@@ -75,7 +76,8 @@ class Exp:
             group=lambda e: f"({str(e)})" if pretty_print else "GROUP (" + str(e) + ")",
             var=lambda x: x if pretty_print else "VAR (" + x + ")",
             const=lambda x: str(x) if pretty_print else "CONS (" + str(x) + ")",
-            bool=lambda x: str(x) if pretty_print else "BOOL (" + str(x) + ")"
+            bool=lambda x: str(x) if pretty_print else "BOOL (" + str(x) + ")",
+            returns=lambda e: f"return {str(e)}{statement_end_symbol}" if pretty_print else "RETURNS (" + str(e) + ")"
         )
 
 

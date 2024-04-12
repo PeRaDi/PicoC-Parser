@@ -74,6 +74,7 @@ def expr(exp):
         bool=lambda x: st.StrategicError,
         var=lambda x: st.StrategicError,
         const=lambda x: st.StrategicError,
+        returns=lambda x: expr(x),
     )
     if x is st.StrategicError:
         raise x
