@@ -19,7 +19,7 @@ class PicoC:
 
 @adt
 class Bloco:
-    INST: Case["Inst"]
+    INST: Case[list["Inst"]]
 
     def __repr__(self):
         return str(self)
@@ -34,7 +34,8 @@ class Bloco:
 class Inst:
     DECL: Case[str, str]
     ATRIB: Case[str, str, "Exp"]
-    WHILE_LOOP: Case["Exp", "Bloco"]
+    # WHILE_LOOP: Case["Exp", "Bloco"]
+    WHILE_LOOP: Case["Cond", "Inst"]
     ITE: Case["Exp", "Bloco", "Bloco"]
     RETURNS: Case["Exp"]
     EMPTY: Case

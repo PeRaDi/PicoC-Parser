@@ -51,6 +51,14 @@ def main():
     #     z = 3;
     # """
 
+    data = """
+        int x = 0;
+        while ( x < 10) then
+            x = x + 1;
+        end
+        return x;
+    """
+
     pa.pretty_print = True
     ast = p.parse(data)
     code = pa.picoc_to_code(ast)

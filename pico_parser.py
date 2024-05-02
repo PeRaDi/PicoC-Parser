@@ -42,6 +42,10 @@ def p_Instrucao(p):
     """
     p[0] = p[1]
 
+def p_Bloco(p):
+    """Bloco : Instrucao
+    """
+    p[0] = pa.Bloco([p[1]])
 
 def p_returnStatement(p):
     """returnStatement : return exp ';'
@@ -150,6 +154,7 @@ def p_cond(p):
         p[0] = pa.Cond.LESS_EQUAL(p[1], p[3])
 
 def p_whileLoop(p):
+    # """whileLoop : while '(' cond ')' then Bloco end"""
     """whileLoop : while '(' cond ')' then Instrucao end"""
     p[0] = pa.Inst.WHILE_LOOP(p[3], p[6])
 
