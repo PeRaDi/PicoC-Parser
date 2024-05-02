@@ -46,7 +46,7 @@ def p_Instrucao(p):
 def p_returnStatement(p):
     """returnStatement : return exp ';'
     """
-    p[0] = pa.Exp.RETURNS(p[2])
+    p[0] = pa.Inst.RETURNS(p[2])
 
 def p_declare(p):
     """atrib : int var ';'

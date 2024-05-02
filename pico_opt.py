@@ -2,6 +2,7 @@ import pico_adt as pa
 import zipper as zp
 import strategy as st
 
+
 def optAdd(x, y):
     if (x == pa.Exp.CONST(0)):
         return y
@@ -12,6 +13,7 @@ def optAdd(x, y):
     else:
         return st.StrategicError
 
+
 def optSub(x, y):
     if (x == pa.Exp.CONST(0)):
         return y.neg()
@@ -21,6 +23,7 @@ def optSub(x, y):
         return pa.Exp.CONST(x.const() - y.const())
     else:
         return st.StrategicError
+
 
 def optNeg(x):
     if (lambda a: x == pa.Exp.NEG()):
@@ -44,6 +47,7 @@ def optNeg(x):
         # print(f"O: {str(x)}")
         return st.StrategicError
 
+
 def optMul(x, y):
     if (x == pa.Exp.CONST(0) or y == pa.Exp.CONST(0)):
         return pa.Exp.CONST(0)
@@ -54,6 +58,7 @@ def optMul(x, y):
     else:
         return st.StrategicError
 
+
 def optDiv(x, y):
     if (x == pa.Exp.CONST(0)):
         return pa.Exp.CONST(0)
@@ -61,6 +66,22 @@ def optDiv(x, y):
         return pa.Exp.CONST(x.const() / y.const())
     else:
         return st.StrategicError
+
+
+def instruction(inst):
+    x = inst.match(
+        decl=lambda t, s: st.StrategicError,
+        atrib=lambda t, s, e: st.StrategicError,
+        while_loop=lambda e, b: st.StrategicError,
+        ite=lambda e, b1, b2: st.StrategicError,
+        returns=lambda e: expr(e),
+        empty=lambda: st.StrategicError
+    )
+    if x is st.StrategicError:
+        raise x
+    else:
+        return x
+
 
 def expr(exp):
     # print(f"EXP: {exp}")
@@ -74,7 +95,7 @@ def expr(exp):
         bool=lambda x: st.StrategicError,
         var=lambda x: st.StrategicError,
         const=lambda x: st.StrategicError,
-        returns=lambda x: expr(x),
+        # returns=lambda x: expr(x),
     )
     if x is st.StrategicError:
         raise x
@@ -82,12 +103,14 @@ def expr(exp):
         # print(f"X: {x}")
         return x
 
+
 def optEqual(x, y):
     # print(f"x: {str(x)} and y: {str(y)}")
     if y == pa.Exp.BOOL("true"):
         return x
     else:
         return st.StrategicError
+
 
 def conditional(cond):
     x = cond.match(
@@ -103,11 +126,17 @@ def conditional(cond):
     else:
         return x
 
-def step_expr(x, on_fail = st.failTP):
+
+def step_expr(x, on_fail=st.failTP):
     return st.adhocTP(on_fail, expr, x)
 
-def step_cond(x, on_fail = st.failTP):
+
+def step_cond(x, on_fail=st.failTP):
     return st.adhocTP(on_fail, conditional, x)
+
+def step_instruction(x, on_fail=st.failTP):
+    return st.adhocTP(on_fail, instruction, x)
+
 
 def optimize(ast):
     empty_added = False
@@ -120,10 +149,11 @@ def optimize(ast):
     z = zp.obj(ast)
 
     # Todas essas 4 implementações estão a funcionar
-    #result = st.innermost(lambda x: st.adhocTP(lambda y: st.adhocTP(st.failTP, conditional, y), expr, x), z).node()
-    #result = st.innermost(lambda x: st.adhocTP(lambda y: step_cond(y), expr, x), z).node()
-    #result = st.innermost(lambda x: step_expr(x, on_fail=lambda y: step_cond(y)), z).node()
-    result = st.innermost(lambda x: step_expr(x, step_cond), z).node()
+    # result = st.innermost(lambda x: st.adhocTP(lambda y: st.adhocTP(st.failTP, conditional, y), expr, x), z).node()
+    # result = st.innermost(lambda x: st.adhocTP(lambda y: step_cond(y), expr, x), z).node()
+    # result = st.innermost(lambda x: step_expr(x, on_fail=lambda y: step_cond(y)), z).node()
+    # result = st.innermost(lambda x: step_expr(x, step_cond), z).node()
+    result = st.innermost(lambda x: step_expr(x, lambda y: step_cond(y, step_instruction)), z).node()
 
     if empty_added:
         result.pop()
