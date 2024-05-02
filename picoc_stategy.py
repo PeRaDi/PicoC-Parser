@@ -58,7 +58,7 @@ def main():
     ast2 = p.parse(code)
     opt2 = op.optimize(ast2)
 
-    pa.pretty_print = True
+    pa.pretty_print = False
     print(f"AST: {ast}")
     print(f"OPT: {opt}")
     print("\n")

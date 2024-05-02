@@ -6,7 +6,7 @@ statement_end_symbol = ";"
 
 @adt
 class PicoC:
-    INST: Case["Inst"]
+    INST: Case[list["Inst"]]
 
     def __repr__(self):
         return str(self)
@@ -64,6 +64,16 @@ class Inst:
             while_loop=lambda e, b: False,
             ite=lambda e, b1, b2: False,
             returns=lambda e: False,
+            empty=lambda: False
+        )
+
+    def is_return(self):
+        return self.match(
+            decl=lambda t, s: False,
+            atrib=lambda t, s, e: False,
+            while_loop=lambda e, b: False,
+            ite=lambda e, b1, b2: False,
+            returns=lambda e: True,
             empty=lambda: False
         )
 
