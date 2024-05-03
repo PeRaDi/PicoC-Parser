@@ -51,7 +51,7 @@ class Bloco:
 class Inst:
     DECL: Case[str, str]
     ATRIB: Case[str, str, "Exp"]
-    WHILE_LOOP: Case["Cond", "Inst"]
+    WHILE_LOOP: Case["Cond", "Bloco"]
     ITE: Case["Cond", "Bloco", "Bloco"]
     RETURNS: Case["Exp"]
     EMPTY: Case
