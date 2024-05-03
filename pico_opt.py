@@ -1,9 +1,11 @@
+import copy
+
 import pico_adt as pa
 import zipper as zp
 import strategy as st
 
 
-def optAdd(x, y):
+def optAdd(x: pa.Exp, y: pa.Exp):
     if (x == pa.Exp.CONST(0)):
         return y
     elif (y == pa.Exp.CONST(0)):
@@ -14,7 +16,7 @@ def optAdd(x, y):
         return st.StrategicError
 
 
-def optSub(x, y):
+def optSub(x: pa.Exp, y: pa.Exp):
     if (x == pa.Exp.CONST(0)):
         return y.neg()
     elif (y == pa.Exp.CONST(0)):
@@ -25,7 +27,7 @@ def optSub(x, y):
         return st.StrategicError
 
 
-def optNeg(x):
+def optNeg(x: pa.Exp):
     if (lambda a: x == pa.Exp.NEG()):
         # print(f"Neg: {str(x)}")
         val = x.neg()
@@ -48,7 +50,7 @@ def optNeg(x):
         return st.StrategicError
 
 
-def optMul(x, y):
+def optMul(x: pa.Exp, y: pa.Exp):
     if (x == pa.Exp.CONST(0) or y == pa.Exp.CONST(0)):
         return pa.Exp.CONST(0)
     elif (lambda a, b: x == pa.Exp.CONST() and y == pa.Exp.CONST()):
@@ -59,7 +61,7 @@ def optMul(x, y):
         return st.StrategicError
 
 
-def optDiv(x, y):
+def optDiv(x: pa.Exp, y: pa.Exp):
     if (x == pa.Exp.CONST(0)):
         return pa.Exp.CONST(0)
     elif (lambda a, b: x == pa.Exp.CONST() and y == pa.Exp.CONST()):
@@ -68,10 +70,10 @@ def optDiv(x, y):
         return st.StrategicError
 
 
-def instruction(inst):
+def instruction(inst: pa.Inst):
     x = inst.match(
         decl=lambda t, s: st.StrategicError,
-        atrib=lambda t, s, e: st.StrategicError,
+        atrib=lambda t, s, e: expr(e),
         while_loop=lambda e, b: st.StrategicError,
         ite=lambda e, b1, b2: st.StrategicError,
         returns=lambda e: expr(e),
@@ -80,11 +82,11 @@ def instruction(inst):
     if x is st.StrategicError:
         raise x
     else:
+        # print(f"INST: {inst}, val: {x}")
         return x
 
 
-def expr(exp):
-    # print(f"EXP: {exp}")
+def expr(exp: pa.Exp):
     x = exp.match(
         add=lambda x, y: optAdd(x, y),
         sub=lambda x, y: optSub(x, y),
@@ -100,11 +102,11 @@ def expr(exp):
     if x is st.StrategicError:
         raise x
     else:
-        # print(f"X: {x}")
+        # print(f"EXP: {exp}, val: {x}")
         return x
 
 
-def optEqual(x, y):
+def optEqual(x: pa.Cond, y: pa.Cond):
     # print(f"x: {str(x)} and y: {str(y)}")
     if y == pa.Exp.BOOL("true"):
         return x
@@ -112,7 +114,7 @@ def optEqual(x, y):
         return st.StrategicError
 
 
-def conditional(cond):
+def conditional(cond: pa.Cond):
     x = cond.match(
         equal=lambda x, y: optEqual(x, y),
         not_equal=lambda x, y: st.StrategicError,
@@ -124,38 +126,50 @@ def conditional(cond):
     if x is st.StrategicError:
         raise x
     else:
+        # print(f"COND: {cond}, val: {x}")
         return x
 
-
 def step_expr(x, on_fail=st.failTP):
-    return st.adhocTP(on_fail, expr, x)
+    # print("step_expr: " + str(x))
+    val = st.adhocTP(on_fail, expr, x)
+    # print(f"STEP_EXPR: {val}")
+    return val
 
 
 def step_cond(x, on_fail=st.failTP):
-    return st.adhocTP(on_fail, conditional, x)
+    val = st.adhocTP(on_fail, conditional, x)
+    # print(f"STEP_COND: {val}")
+    return val
+
 
 def step_instruction(x, on_fail=st.failTP):
-    return st.adhocTP(on_fail, instruction, x)
+    val = st.adhocTP(on_fail, instruction, x)
+    # print(f"STEP_INST: {val}")
+    return val
 
+def optimize(ast: pa.PicoC) -> pa.PicoC:
+    # Para evitar o erro de list is not iterable com o zipper
+    ast_to_zip = copy.deepcopy(ast)
+    ast_to_zip.insts().append(pa.Inst.EMPTY())
+    # print(ast_to_zip.print(False))
+    z = zp.obj(ast_to_zip.insts())
+    # z = zp.obj(ast.insts())
 
-def optimize(ast):
-    empty_added = False
-
-    if len(ast) == 1:
-        # Esta condicional é porque gera erro de list is not iterable com o zipper
-        ast.append(pa.Inst.EMPTY())
-        empty_added = True
-
-    z = zp.obj(ast)
-
-    # Todas essas 4 implementações estão a funcionar
+    # Todas essas implementações estão a funcionar
     # result = st.innermost(lambda x: st.adhocTP(lambda y: st.adhocTP(st.failTP, conditional, y), expr, x), z).node()
     # result = st.innermost(lambda x: st.adhocTP(lambda y: step_cond(y), expr, x), z).node()
     # result = st.innermost(lambda x: step_expr(x, on_fail=lambda y: step_cond(y)), z).node()
     # result = st.innermost(lambda x: step_expr(x, step_cond), z).node()
-    result = st.innermost(lambda x: step_expr(x, lambda y: step_cond(y, step_instruction)), z).node()
+    # result = st.innermost(lambda x: step_expr(x, lambda y: step_cond(y, step_instruction)), z).node()
+    result = st.innermost(lambda x: step_instruction(x, lambda y: step_cond(y, step_expr)), z).node()
+    # result = st.innermost(lambda x:
+    #                       step_instruction(x, lambda i:
+    #                       step_bloco(i, lambda b:
+    #                       step_expr(b, step_cond))),
+    #                       z).node()
 
-    if empty_added:
-        result.pop()
+    # result.insts().pop()
+    result.pop()
 
-    return result
+    # return result
+    return pa.PicoC.INSTS(result)

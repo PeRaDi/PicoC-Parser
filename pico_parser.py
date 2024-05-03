@@ -4,34 +4,36 @@ from lex import literals
 
 import pico_adt as pa
 
-def p_error(p):
-    print("Syntax error in input!")
+def p_Rec0(p):
+    "Rec : PicoC"
+    p[0] = p[1]
 
+def p_PicoC(p):
+    "PicoC : Instrucoes"
+    p[0] = pa.PicoC.INSTS(p[1])
 
-# def p_Rec0(p):
-#     "Rec : PicoC"
+def p_Bloco(p):
+    """Bloco : Instrucoes
+    """
+    p[0] = pa.Bloco.INSTS(p[1])
+
+def p_Instrucoes(p):
+    """Instrucoes : Instrucoes Instrucao
+                    | Instrucao
+    """
+    if len(p) == 3:
+        p[0] = p[1] + [p[2]]
+    else:
+        p[0] = [p[1]]
+
+# def p_Rec0(p) :
+#     "Rec : Instrucao"
 #     p[0] = [p[1]]
-#
-#
-# def p_Rec1(p):
-#     "Rec : Rec PicoC"
+
+# def p_Rec1(p) :
+#     "Rec : Rec Instrucao"
 #     p[0] = p[1]
 #     p[0].append(p[2])
-#
-#
-# def p_PicoC(p):
-#     "PicoC : Instrucao"
-#     p[0] = pa.PicoC.INST(p[1])
-
-
-def p_Rec0(p) :
-    "Rec : Instrucao"
-    p[0] = [p[1]]
-
-def p_Rec1(p) :
-    "Rec : Rec Instrucao"
-    p[0] = p[1]
-    p[0].append(p[2])
 
 def p_Instrucao(p):
     """Instrucao : ifStatement
@@ -42,10 +44,6 @@ def p_Instrucao(p):
     """
     p[0] = p[1]
 
-def p_Bloco(p):
-    """Bloco : Instrucao
-    """
-    p[0] = pa.Bloco([p[1]])
 
 def p_returnStatement(p):
     """returnStatement : return exp ';'
@@ -120,13 +118,13 @@ def p_exp_group(p):
 
 
 def p_ifThen(p):
-    """ifStatement : if '(' cond ')' then Instrucao end
+    """ifStatement : if '(' cond ')' then Bloco end
     """
     p[0] = pa.Inst.ITE(p[3], p[6], pa.Inst.EMPTY())
 
 
 def p_ifThenElse(p):
-    """ifStatement : if '(' cond ')' then Instrucao else Instrucao end
+    """ifStatement : if '(' cond ')' then Bloco else Bloco end
     """
     p[0] = pa.Inst.ITE(p[3], p[6], p[8])
 
@@ -154,8 +152,7 @@ def p_cond(p):
         p[0] = pa.Cond.LESS_EQUAL(p[1], p[3])
 
 def p_whileLoop(p):
-    # """whileLoop : while '(' cond ')' then Bloco end"""
-    """whileLoop : while '(' cond ')' then Instrucao end"""
+    """whileLoop : while '(' cond ')' then Bloco end"""
     p[0] = pa.Inst.WHILE_LOOP(p[3], p[6])
 
 # https://www.dabeaz.com/ply/ply.html#ply_nn1
@@ -170,7 +167,7 @@ precedence = (
     ('right', 'UMINUS'),  # Unary minus operator
 )
 
-def parse(data) -> list[pa.Inst]:
+def parse(data) -> pa.PicoC:
     parser = yacc.yacc()
     ast = parser.parse(data)
     return ast
@@ -209,6 +206,36 @@ if __name__ == '__main__':
         end
     """
 
-    pa.pretty_print = True
+    # data = """
+    #     int x = 0;
+    #     int y = 0;
+    #     while ( x < 10) then
+    #         x = x + 1;
+    #         y = y + 1;
+    #     end
+    #     return x;
+    # """
+
+    data = """
+        if(x == 1) then
+            y = 2;
+            w = x;
+        else
+            z = 3;
+            w = 2;
+        end
+        return x;
+    """
+    data = """ 
+        int x = 3 * 4 + 5;
+        int y = 3 + 4 * 5;
+        int z = 0;
+        
+        int ans = x + y * z;
+        
+        return 3 + 4 * 5;
+    """
+
     ast = parse(data)
     print(ast)
+    # print(ast.print())
