@@ -18,14 +18,16 @@ data = """
 
 
 data = """
-    int x = 0;
+    int x = 1;
     int z = 10;
+    int count = 0;
     
-    while ( x < z) then
-        x = x + 3;
+    while ( x <= z) then
+        x = x + 1;
+        count = count + 1;
     end
-    
-    return x;
+
+    return count;
 """
 
 # data = """
@@ -72,6 +74,7 @@ def eval_return(exp: pa.Exp, args: dict[str, int] = {}):
     return args["return"]
 
 def eval_cond(cond: pa.Cond, args: dict[str, int] = {}):
+    # print(f"eval_cond: {cond}")
     val = cond.match(
         equal=lambda x, y: eval_exp(x, args) == eval_exp(y, args),
         not_equal=lambda x, y: eval_exp(x, args) != eval_exp(y, args),
@@ -80,17 +83,12 @@ def eval_cond(cond: pa.Cond, args: dict[str, int] = {}):
         less=lambda x, y: eval_exp(x, args) < eval_exp(y, args),
         less_equal=lambda x, y: eval_exp(x, args) <= eval_exp(y, args),
     )
+    # print(f"eval_cond result: {val}")
     return val
 
-def eval_while(cond: pa.Cond, inst: pa.Inst, args: dict[str, int] = {}):
-    print("eval_while")
-    print(cond)
-    print(inst)
-    print(args)
-    print("eval_while_")
-
+def eval_while(cond: pa.Cond, bloco: pa.Bloco, args: dict[str, int] = {}):
     while eval_cond(cond, args):
-        eval_inst(inst, args)
+        eval_bloco(bloco, args)
 
 def eval_ite(condition: pa.Exp, b1: pa.Bloco, b2: pa.Bloco, args: dict[str, int] = {}):
     # if evaluate_exp(condition, args):
@@ -99,7 +97,12 @@ def eval_ite(condition: pa.Exp, b1: pa.Bloco, b2: pa.Bloco, args: dict[str, int]
     print(b1)
     print(b2)
 
+def eval_bloco(bloco: pa.Bloco, args: dict[str, int] = {}):
+    for i in bloco.insts():
+        eval_inst(i, args)
+
 def eval_inst(inst: pa.Inst, args: dict[str, int] = {}):
+    # print(f"eval_inst: {inst}, type: {type(inst)}")
     val = inst.match(
         decl=lambda t, s: None,
         atrib=lambda t, s, e: eval_atrib(t, s, e, args),
@@ -111,12 +114,12 @@ def eval_inst(inst: pa.Inst, args: dict[str, int] = {}):
     return val
 
 
-def evaluate_ast(ast: list[pa.Inst], args: dict[str, int] = {}):
+def evaluate_ast(ast: pa.PicoC, args: dict[str, int] = {}):
     if ast == None:
         return None
 
-    for a in ast:
-        eval_inst(a, args)
+    for i in ast.insts():
+        eval_inst(i, args)
 
     return args.get("return")
 
