@@ -1,50 +1,11 @@
 import pico_parser as p
 import pico_adt as pa
 
-commands = {
-
-}
-
-data = """ 
-    int x = 3 * 4 + 5;
-    int y = 3 + 4 * 5;
-    int z = 2;
-    z = 1;
-    
-    int ans = x + y * z;
-    
-    return ans;
-"""
-
-
-data = """
-    int x = 1;
-    int z = 10;
-    int count = 0;
-    
-    while ( x <= z) then
-        x = x + 1;
-        count = count + 1;
-    end
-
-    return count;
-"""
-
-# data = """
-#         int x = 3 * 4 + 5;
-#         int y = 3 + 4 * 5;
-#         int z = 2;
-#
-#         if (z <= (x + y)) then
-#             z = (x + y) * 2;
-#         end
-#
-#         return z;
-#     """
 
 def get_var_value(var_name: str, args: dict[str, int] = {}):
     # print("get_var_value")
     return args.get(var_name)
+
 
 def eval_exp(exp: pa.Exp, args: dict[str, int] = {}):
     # print("eval_exp")
@@ -63,15 +24,18 @@ def eval_exp(exp: pa.Exp, args: dict[str, int] = {}):
     )
     return val
 
+
 def eval_atrib(type_name, var_name, exp: pa.Exp, args: dict[str, int] = {}):
     # print("eval_atrib")
     args[var_name] = eval_exp(exp, args)
     return args[var_name]
 
+
 def eval_return(exp: pa.Exp, args: dict[str, int] = {}):
     # print("eval_return")
     args["return"] = eval_exp(exp, args)
     return args["return"]
+
 
 def eval_cond(cond: pa.Cond, args: dict[str, int] = {}):
     # print(f"eval_cond: {cond}")
@@ -86,20 +50,25 @@ def eval_cond(cond: pa.Cond, args: dict[str, int] = {}):
     # print(f"eval_cond result: {val}")
     return val
 
+
 def eval_while(cond: pa.Cond, bloco: pa.Bloco, args: dict[str, int] = {}):
     while eval_cond(cond, args):
         eval_bloco(bloco, args)
 
-def eval_ite(condition: pa.Exp, b1: pa.Bloco, b2: pa.Bloco, args: dict[str, int] = {}):
-    # if evaluate_exp(condition, args):
-        # eva
-    print(condition)
-    print(b1)
-    print(b2)
+
+def eval_ite(cond: pa.Exp, b1: pa.Bloco, b2: pa.Bloco, args: dict[str, int] = {}):
+    if eval_cond(cond, args):
+        eval_bloco(b1, args)
+    else:
+        eval_bloco(b2, args)
+
 
 def eval_bloco(bloco: pa.Bloco, args: dict[str, int] = {}):
+    if bloco == pa.Inst.EMPTY():
+        return
     for i in bloco.insts():
         eval_inst(i, args)
+
 
 def eval_inst(inst: pa.Inst, args: dict[str, int] = {}):
     # print(f"eval_inst: {inst}, type: {type(inst)}")
@@ -123,11 +92,45 @@ def evaluate_ast(ast: pa.PicoC, args: dict[str, int] = {}):
 
     return args.get("return")
 
-vars = {}
 
-ast = p.parse(data)
+if __name__ == "__main__":
+    data = """ 
+        int x = 3 * 4 + 5;
+        int y = 3 + 4 * 5;
+        int z = 2;
+        z = 1;
+        
+        int ans = x + y * z;
+        
+        return ans;
+    """
 
-result = evaluate_ast(ast, vars)
+    data = """
+        int x = 1;
+        int z = 10;
+        int count = 0;
+        
+        while ( x <= z) then
+            x = x + 1;
+            count = count + 1;
+        end
+    
+        return count;
+    """
 
-print(vars)
-print(result)
+    data = """
+        int x = 1;
+        int y = 3;
+        int z = 2;
+    
+        if (z <= y * x) then
+            x = 4;
+        end
+    
+        return x;
+    """
+    vars = {}
+    ast = p.parse(data)
+    result = evaluate_ast(ast, vars)
+    print(vars)
+    print(result)
