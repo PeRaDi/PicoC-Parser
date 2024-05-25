@@ -83,7 +83,7 @@ def eval_inst(inst: pa.Inst, args: dict[str, int] = {}):
     return val
 
 
-def evaluate_ast(ast: pa.PicoC, args: dict[str, int] = {}):
+def evaluate(ast: pa.PicoC, args: dict[str, int] = {}) -> int:
     if ast == None:
         return None
 
@@ -131,6 +131,7 @@ if __name__ == "__main__":
     """
     vars = {}
     ast = p.parse(data)
-    result = evaluate_ast(ast, vars)
+    result = evaluate(ast, vars)
+    print(ast)
     print(vars)
     print(result)
