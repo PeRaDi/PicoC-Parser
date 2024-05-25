@@ -53,19 +53,19 @@ Utilize a função runTestSuite para correr os testes unitários definidos anter
 mas agora a usar o programa mutado (mantendo ainda o resultado esperado do programa original). 
 **Certifiquese que cada test suite irá agora falhar por causa da mutação feita**.
 
-⬜ Estenda a sua linguagem PicoC para **incluir uma instrução print**, que poderá imprimir uma string para o terminal. 
+⬜ 7. Estenda a sua linguagem PicoC para **incluir uma instrução print**, que poderá imprimir uma string para o terminal. 
 Adapte o seu **evaluate** para que este seja capaz de **imprimir texto** sempre que encontra uma instrução print. 
 (Dica: utilize o módulo Debug.Trace para não necessitar de manipular o monad de IO para escrever texto.)
 
-⬜ Defina uma função **instrumentation :: PicoC -> PicoC** que irá pegar num programa PicoC e 
+⬜ 8. Defina uma função **instrumentation :: PicoC -> PicoC** que irá pegar num programa PicoC e 
 instrumentar o programa para auxiliar a localização de falhas.
 
-⬜ Defina uma função **instrumentedTestSuite :: PicoC -> [(Inputs, Int)] -> Bool** que irá instrumentar cada 
+⬜ 9. Defina uma função **instrumentedTestSuite :: PicoC -> [(Inputs, Int)] -> Bool** que irá instrumentar cada 
 programa antes de o executar, e de seguida irá correr os testes unitários e validar se todos passam.
 Em alternativa, implemente uma versão da função evaluate que durante a execução do programa e inputs dados 
 como argumento, produz no fim a lista de instruções do programa usadas durante a sua execução.
 
-⬜ Recolha o resultado da execução de instrumentedTestSuite nos seus testes unitários que usam o programa mutado 
+⬜ 10. Recolha o resultado da execução de instrumentedTestSuite nos seus testes unitários que usam o programa mutado 
 e o resultado esperado não mutado. 
 Coloque estes resultados numa tabela / folha de cálculo e utilize o algoritmo de **Spectrum-Based Fault Localization** 
 para localizar as instruções com mais probabilidade erro em cada um dos 3 programas.
