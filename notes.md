@@ -39,7 +39,7 @@ runTestSuitePrograma1 = runTestSuite programa1 testSuitePrograma1
 ✅ 3. Defina uma função **runTestSuite :: PicoC -> [(Inputs, Int)] -> Bool** que irá correr vários testes unitários 
 e validar se todos passam.
 
-⬜ 4. Selecione 3 programas PicoC que considere representativos. Produza testes
+✅ 4. Selecione 3 programas PicoC que considere representativos. Produza testes
    unitários para cada um, e verifique que estes passam com a sua função
    **runTestSuite**
 
