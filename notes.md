@@ -32,7 +32,7 @@ runTestSuitePrograma1 = runTestSuite programa1 testSuitePrograma1
    um programa PicoC e os seus inputs, i.e. os valores atribuídos a cada
    variável, o execute e produza um resultado.
 
-⬜ 2. Defina uma função **runTest :: PicoC -> (Inputs, Int) -> Bool** que
+✅ 2. Defina uma função **runTest :: PicoC -> (Inputs, Int) -> Bool** que
    para um programa PicoC, dado os seus inputs e o seu resultado esperado,
    irá verificar se o programa com esses inputs de facto produz esse resultado.
 
