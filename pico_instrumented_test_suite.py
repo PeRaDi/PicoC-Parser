@@ -81,6 +81,26 @@ if __name__ == "__main__":
     
         return count;
     """
+    # data = """
+    #     int x;
+    #     int y;
+    #     int z;
+    #
+    #     if (z <= y * x) then
+    #         z = y * x;
+    #     else
+    #         z = (x * y) * 2;
+    #     end
+    #
+    #     return z;
+    # """
+    # data = """
+    #     int x;
+    #     int y;
+    #     int z;
+    #     int ans = x + y * z;
+    #     return ans;
+    # """
     program = parser.parse(data)
     test_suite = [({}, 10)]  
     
