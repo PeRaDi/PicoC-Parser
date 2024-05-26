@@ -53,7 +53,7 @@ Utilize a função runTestSuite para correr os testes unitários definidos anter
 mas agora a usar o programa mutado (mantendo ainda o resultado esperado do programa original). 
 **Certifiquese que cada test suite irá agora falhar por causa da mutação feita**.
 
-⬜ 7. Estenda a sua linguagem PicoC para **incluir uma instrução print**, que poderá imprimir uma string para o terminal. 
+✅ 7. Estenda a sua linguagem PicoC para **incluir uma instrução print**, que poderá imprimir uma string para o terminal. 
 Adapte o seu **evaluate** para que este seja capaz de **imprimir texto** sempre que encontra uma instrução print. 
 (Dica: utilize o módulo Debug.Trace para não necessitar de manipular o monad de IO para escrever texto.)
 
