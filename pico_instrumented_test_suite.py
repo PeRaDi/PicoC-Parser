@@ -63,13 +63,14 @@ def instrumentedTestSuite(program, test_suite):
         result, executed_instructions = instrumented_evaluate(instrumented_program, inputs)
         if result != expected:
             all_tests_pass = False
-        print("Executed Instructions:")
+        print(f"Inputs: {inputs}, Expected: {expected}, Result: {result}")
+        print("Executed Instructions: ")
         for inst, count in executed_instructions.items():
             print(f"{inst}: {count} time(s)")
+        print()
     return all_tests_pass
 
-if __name__ == "__main__":
-
+def exemplo1():
     data = """
         int x = 1;
         int z = 10;
@@ -87,6 +88,7 @@ if __name__ == "__main__":
     all_tests_pass = instrumentedTestSuite(program, test_suite)
     print(f"All tests pass for Exemplo 1: {all_tests_pass}\n\n")
 
+def exemplo2():
     data = """
         int x;
         int y;
@@ -108,6 +110,7 @@ if __name__ == "__main__":
     all_tests_pass = instrumentedTestSuite(program, test_suite)
     print(f"All tests pass for Exemplo 2: {all_tests_pass}\n\n")
 
+def exemplo3():
     data = """
         int x;
         int y;
@@ -122,3 +125,42 @@ if __name__ == "__main__":
     ]
     all_tests_pass = instrumentedTestSuite(program, test_suite)
     print(f"All tests pass for Exemplo 3: {all_tests_pass}\n\n")
+
+def exemplo4():
+    data = """
+        int a;
+        int b;
+        int c;
+        int m;
+        
+        if (a > b) then
+            if (a > c) then
+                m = a;
+            else
+                m = b;
+            end
+        else 
+            if (b > c) then
+                m = b;
+            else
+                m = c;
+            end
+        end
+        
+        return m;
+    """
+    program = parser.parse(data)
+    test_suite = [
+        ({"a": 1, "b": 2, "c": 3}, 3),
+        ({"a": 1, "b": 4, "c": 2}, 4),
+        ({"a": 2, "b": 1, "c": 1}, 2),
+        ({"a": 2, "b": 1, "c": 3}, 3),
+    ]
+    all_tests_pass = instrumentedTestSuite(program, test_suite)
+    print(f"All tests pass for Exemplo 4: {all_tests_pass}\n\n")
+
+if __name__ == "__main__":
+    # exemplo1()
+    # exemplo2()
+    # exemplo3()
+    exemplo4()
