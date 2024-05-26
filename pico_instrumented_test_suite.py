@@ -1,6 +1,19 @@
 import pico_evaluate as pe
-from pico_adt import instrumentation
+import pico_adt as pa
 import pico_parser as parser
+
+
+def instrumentation(program):
+    def instrument_instructions(instructions):
+        instrumented_instructions = []
+        for instr in instructions:
+            instrumented_instructions.append(pa.Inst.PRINT(f"Executing: {instr.print()}"))
+            instrumented_instructions.append(instr)
+        return instrumented_instructions
+
+    return program.match(
+        insts=lambda instructions: pa.PicoC.INSTS(instrument_instructions(instructions))
+    )
 
 def instrumented_evaluate(ast, args):
     from collections import defaultdict
