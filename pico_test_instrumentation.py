@@ -1,6 +1,18 @@
 import pico_parser as parser
 import pico_adt as pa
 
+def instrumentation(program):
+    def instrument_instructions(instructions):
+        instrumented_instructions = []
+        for instr in instructions:
+            instrumented_instructions.append(pa.Inst.PRINT(f"Executing: {instr.print()}"))
+            instrumented_instructions.append(instr)
+        return instrumented_instructions
+
+    return program.match(
+        insts=lambda instructions: pa.PicoC.INSTS(instrument_instructions(instructions))
+    )
+
 def test_instrumentation():
     data = """
         int x = 3 * 4 + 5;
@@ -15,7 +27,7 @@ def test_instrumentation():
     
     ast = parser.parse(data)
     
-    intrumentated = pa.instrumentation(ast)
+    intrumentated = instrumentation(ast)
     
     print(intrumentated)
 
