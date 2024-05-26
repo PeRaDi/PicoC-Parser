@@ -31,7 +31,7 @@ def instrumented_evaluate(ast, args):
             ite=lambda e, b1, b2: instrumented_eval_ite(e, b1, b2, args),
             returns=lambda e: pe.eval_return(e, args),
             empty=lambda: None,
-            print=lambda s: print(s[1:len(s) - 1].replace("\\n", "\n"))
+            print=lambda s: print(s)
         )
         return val
 
