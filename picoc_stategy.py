@@ -69,6 +69,8 @@ def main():
     # """
 
     data = """
+        // bool w = false;
+        w = false;
         if(1 == 1) then
             int x = 1 + 3;
             int z = 1 + 5;

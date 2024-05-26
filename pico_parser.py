@@ -82,7 +82,7 @@ def p_exp_bool(p):
     """exp : true
             | false
     """
-    p[0] = pa.Exp.BOOL(p[1])
+    p[0] = pa.Exp.BOOL(p[1] == "true")
 
 
 def p_exp_binary_operation(p):

@@ -108,7 +108,7 @@ def expr(exp: pa.Exp):
 
 def optEqual(x: pa.Cond, y: pa.Cond):
     # print(f"x: {str(x)} and y: {str(y)}")
-    if y == pa.Exp.BOOL("true"):
+    if y == pa.Exp.BOOL(True):
         return x
     else:
         return st.StrategicError
