@@ -173,6 +173,20 @@ class Cond:
                 pretty_print) if self.pretty_print else "LESS_EQUAL (" + x.print(pretty_print) + ", " + y.print(
                 pretty_print) + ")",
         )
+    
+def instrumentation(program):
+
+    def instrument_instructions(instructions):
+        instrumented_instructions = []
+        for instr in instructions:
+            instrumented_instructions.append(Inst.PRINT(f"Executing: {instr}"))
+            instrumented_instructions.append(instr)
+        return instrumented_instructions
+    
+    return program.match(
+        insts=lambda instructions: PicoC.INSTS(instrument_instructions(instructions))
+    )
+
 
 def picoc_to_code(ast: PicoC) -> str:
     return str(ast.print(True))
