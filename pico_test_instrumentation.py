@@ -27,9 +27,9 @@ def test_instrumentation():
     
     ast = parser.parse(data)
     
-    intrumentated = instrumentation(ast)
+    instrumented = instrumentation(ast)
     
-    print(intrumentated)
+    print(instrumented)
 
 if __name__ == "__main__":
     test_instrumentation()
