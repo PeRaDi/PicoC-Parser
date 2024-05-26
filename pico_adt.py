@@ -175,14 +175,13 @@ class Cond:
         )
     
 def instrumentation(program):
-
     def instrument_instructions(instructions):
         instrumented_instructions = []
         for instr in instructions:
-            instrumented_instructions.append(Inst.PRINT(f"Executing: {instr}"))
+            instrumented_instructions.append(Inst.PRINT(f"Executing: {instr.print()}"))
             instrumented_instructions.append(instr)
         return instrumented_instructions
-    
+
     return program.match(
         insts=lambda instructions: PicoC.INSTS(instrument_instructions(instructions))
     )
