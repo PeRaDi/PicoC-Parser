@@ -69,6 +69,7 @@ def instrumentedTestSuite(program, test_suite):
     return all_tests_pass
 
 if __name__ == "__main__":
+
     data = """
         int x = 1;
         int z = 10;
@@ -81,28 +82,43 @@ if __name__ == "__main__":
     
         return count;
     """
-    # data = """
-    #     int x;
-    #     int y;
-    #     int z;
-    #
-    #     if (z <= y * x) then
-    #         z = y * x;
-    #     else
-    #         z = (x * y) * 2;
-    #     end
-    #
-    #     return z;
-    # """
-    # data = """
-    #     int x;
-    #     int y;
-    #     int z;
-    #     int ans = x + y * z;
-    #     return ans;
-    # """
     program = parser.parse(data)
-    test_suite = [({}, 10)]  
-    
+    test_suite = [({}, 10)]  # Teste sem entradas específicas, resultado esperado é 10
     all_tests_pass = instrumentedTestSuite(program, test_suite)
-    print(f"All tests pass: {all_tests_pass}")
+    print(f"All tests pass for Exemplo 1: {all_tests_pass}\n\n")
+
+    data = """
+        int x;
+        int y;
+        int z;
+
+        if (z <= y * x) then
+            z = y * x;
+        else
+            z = (x * y) * 2;
+        end
+
+        return z;
+    """
+    program = parser.parse(data)
+    test_suite = [
+        ({"x": 2, "y": 3, "z": 1}, 6),  # Teste com x=2, y=3, z=1, resultado esperado é 6
+        ({"x": 2, "y": 3, "z": 7}, 12)   # Teste com x=2, y=3, z=6, resultado esperado é 6
+    ]
+    all_tests_pass = instrumentedTestSuite(program, test_suite)
+    print(f"All tests pass for Exemplo 2: {all_tests_pass}\n\n")
+
+    data = """
+        int x;
+        int y;
+        int z;
+        int ans = x + y * z;
+        return ans;
+    """
+    program = parser.parse(data)
+    test_suite = [
+        ({"x": 1, "y": 2, "z": 3}, 7),  # Teste com x=1, y=2, z=3, resultado esperado é 7
+        ({"x": 0, "y": 1, "z": 4}, 4)   # Teste com x=0, y=1, z=4, resultado esperado é 4
+    ]
+    all_tests_pass = instrumentedTestSuite(program, test_suite)
+    print(f"All tests pass for Exemplo 3: {all_tests_pass}\n\n")
