@@ -11,18 +11,22 @@ def eval_exp(exp: pa.Exp, args: dict[str, int] = {}):
     # print("eval_exp")
     # print(exp)
     # print("eval_exp_")
-    val = exp.match(
-        add=lambda x, y: eval_exp(x, args) + eval_exp(y, args),
-        sub=lambda x, y: eval_exp(x, args) - eval_exp(y, args),
-        mul=lambda x, y: eval_exp(x, args) * eval_exp(y, args),
-        div=lambda x, y: eval_exp(x, args) / eval_exp(y, args),
-        neg=lambda x: -eval_exp(x, args),
-        group=lambda x: eval_exp(x, args),
-        bool=lambda x: x,
-        var=lambda x: get_var_value(x, args),
-        const=lambda x: x,
-    )
-    return val
+    try:
+        val = exp.match(
+            add=lambda x, y: eval_exp(x, args) + eval_exp(y, args),
+            sub=lambda x, y: eval_exp(x, args) - eval_exp(y, args),
+            mul=lambda x, y: eval_exp(x, args) * eval_exp(y, args),
+            div=lambda x, y: eval_exp(x, args) / eval_exp(y, args),
+            neg=lambda x: -eval_exp(x, args),
+            group=lambda x: eval_exp(x, args),
+            bool=lambda x: x,
+            var=lambda x: get_var_value(x, args),
+            const=lambda x: x,
+        )
+        return val
+    except Exception as e:
+        # print(f"Erro: {exp} => {e}")
+        pass
 
 
 def eval_atrib(type_name, var_name, exp: pa.Exp, args: dict[str, int] = {}):
@@ -71,16 +75,19 @@ def eval_bloco(bloco: pa.Bloco, args: dict[str, int] = {}):
 
 
 def eval_inst(inst: pa.Inst, args: dict[str, int] = {}):
-    val = inst.match(
-        decl=lambda t, s: None,
-        atrib=lambda t, s, e: eval_atrib(t, s, e, args),
-        while_loop=lambda e, b: eval_while(e, b, args),
-        ite=lambda e, b1, b2: eval_ite(e, b1, b2, args),
-        returns=lambda e: eval_return(e, args),
-        empty=lambda: None,
-        print=lambda s: print(s)
-    )
-    return val
+    try:
+        val = inst.match(
+            decl=lambda t, s: None,
+            atrib=lambda t, s, e: eval_atrib(t, s, e, args),
+            while_loop=lambda e, b: eval_while(e, b, args),
+            ite=lambda e, b1, b2: eval_ite(e, b1, b2, args),
+            returns=lambda e: eval_return(e, args),
+            empty=lambda: None,
+            print=lambda s: print(s)
+        )
+        return val
+    except Exception as e:
+        pass
 
 def evaluate(ast: pa.PicoC, args: dict[str, int] = {}) -> int:
     if ast is None:
