@@ -78,7 +78,7 @@ def eval_inst(inst: pa.Inst, args: dict[str, int] = {}):
         ite=lambda e, b1, b2: eval_ite(e, b1, b2, args),
         returns=lambda e: eval_return(e, args),
         empty=lambda: None,
-        print=lambda s: print(s[1:len(s) - 1].replace("\\n", "\n"))
+        print=lambda s: print(s)
     )
     return val
 

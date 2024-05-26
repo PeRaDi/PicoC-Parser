@@ -83,7 +83,7 @@ class Inst:
                 e: f"return {e.print(pretty_print)}{statement_end_symbol}" if self.pretty_print else "RETURNS (" + e.print(
                 pretty_print) + ")",
             empty=lambda: "" if self.pretty_print else "EMPTY",
-            print=lambda x: f'print({x[1:len(x)-1]}){statement_end_symbol}' if self.pretty_print else "PRINT(" + x + ")"
+            print=lambda x: f'print({x}){statement_end_symbol}' if self.pretty_print else "PRINT(" + x + ")"
 
         )
 
