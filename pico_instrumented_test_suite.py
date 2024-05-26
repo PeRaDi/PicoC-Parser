@@ -55,9 +55,7 @@ def instrumentedTestSuite(program, test_suite):
             print(f"{inst}: {count} time(s)")
     return all_tests_pass
 
-# Example usage
 if __name__ == "__main__":
-    # Define um programa PicoC e sua suíte de testes
     data = """
         int x = 1;
         int z = 10;
@@ -71,8 +69,7 @@ if __name__ == "__main__":
         return count;
     """
     program = parser.parse(data)
-    test_suite = [({}, 10)]  # Suíte de testes exemplo com entradas e resultado esperado
+    test_suite = [({}, 10)]  
     
-    # Executa a suíte de testes instrumentada
     all_tests_pass = instrumentedTestSuite(program, test_suite)
     print(f"All tests pass: {all_tests_pass}")
