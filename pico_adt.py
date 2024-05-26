@@ -106,6 +106,32 @@ class Exp:
     def __str__(self):
         return self.print(self.pretty_print)
 
+    def type_str(self):
+        return self.match(
+            add=lambda x, y: "add",
+            sub=lambda x, y: "sub",
+            mul=lambda x, y: "mul",
+            div=lambda x, y: "div",
+            const=lambda x: "const",
+            neg=lambda x: "neg",
+            var=lambda x: "var",
+            bool=lambda x: "bool",
+            group=lambda x: "group",
+        )
+
+    def can_be_mutated(self):
+        return self.match(
+            add=lambda x, y: True,
+            sub=lambda x, y: True,
+            mul=lambda x, y: True,
+            div=lambda x, y: True,
+            const=lambda x: True,
+            neg=lambda x: False,
+            var=lambda x: False,
+            bool=lambda x: False,
+            group=lambda x: False,
+        )
+
     def print(self, pretty_print=True):
         self.pretty_print = pretty_print
         return self.match(

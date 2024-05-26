@@ -8,21 +8,26 @@ import pico_parser as p
 import pico_opt as po
 
 def mutations(exp: pa.Exp):
-    r = exp.match(
-        add=lambda x, y: pa.Exp.SUB(x, y),
-        sub=lambda x, y: pa.Exp.ADD(x, y),
-        mul=lambda x, y: pa.Exp.ADD(x, y),
-        div=lambda x, y: pa.Exp.SUB(x, y),
-        neg=lambda x: pa.Exp.NEG(x.neg()),
-        group=lambda x: st.StrategicError,
-        bool=lambda x: pa.Exp.BOOL(not x),
-        var=lambda x: st.StrategicError,
-        const=lambda x: pa.Exp.CONST(x + 1),
-    )
-    if r is st.StrategicError:
-        st.failTP(r)
-    else:
+    try:
+        r = exp.match(
+            # add=lambda x, y: pa.Exp.SUB(x, y),
+            # sub=lambda x, y: pa.Exp.ADD(x, y),
+            # mul=lambda x, y: pa.Exp.ADD(x, y),
+            # div=lambda x, y: pa.Exp.SUB(x, y),
+            # neg=lambda x: pa.Exp.NEG(x.neg()),
+            # group=lambda x: st.StrategicError,
+            # bool=lambda x: pa.Exp.BOOL(not x),
+            # var=lambda x: st.StrategicError,
+            const=lambda x: pa.Exp.CONST(x + 1),
+        )
+        if r is st.StrategicError:
+            st.failTP(r)
+        else:
+            return st.idTP(r)
         return st.idTP(r)
+    except Exception as e:
+        #st.failTP(e)
+        st.idTP(exp)
 
 def step_mutations(x, on_fail=st.idTP):
     # print(f"Step: {x}")
@@ -33,20 +38,32 @@ def step_mutations(x, on_fail=st.idTP):
 # Function to gather all nodes in the AST
 def gather_nodes(ast):
     node_list = []
-    def gather(x):
-        if ((not (x is None))
-            and type(x.node()) == pa.Exp
-            and (lambda y: x != pa.Exp.VAR())
-            and (lambda y: x != pa.Exp.GROUP())
-            and (lambda y: x != pa.Exp.NEG())):
-            node_list.append(x)
-        return st.idTP(x)
+    def gather(n):
+        # if ((not (x is None))
+        #     and type(x.node()) == pa.Exp
+        #     and (lambda y: x != pa.Exp.VAR())
+        #     and (lambda y: x != pa.Exp.GROUP())
+        #     and (lambda y: x != pa.Exp.NEG())):
+        #     node_list.append(x)
+        try:
+            if n is None:
+                return st.idTP(n)
+            node = n.node()
+            node_type = type(node)
+
+            if not node_type is pa.Exp:
+                return st.idTP(n)
+
+            node_list.append(n)
+            return st.idTP(n)
+        except Exception as e:
+            return st.idTP(n)
 
     st.full_tdTP(gather, ast)
     return node_list
 
 def apply_mutation(ast, node):
-    print(f"Apply to node {node.node()}")
+    print(f"Apply to node {type(node.node())} => {node.node()} => {ast.node()}")
     def apply(x):
         if x == node:
             return step_mutations(x)

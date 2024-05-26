@@ -47,7 +47,7 @@ e validar se todos passam.
 Para isto, poderá recorrer a uma implementação manual, ou investigar as definições de 
 **once_randomTP** e **mutations** disponíveis na biblioteca de programação estratégica em Haskell.
 
-⬜ 6. Utilize o código da alínea anterior para inserir uma mutação em cada programa PicoC 
+✅ 6. Utilize o código da alínea anterior para inserir uma mutação em cada programa PicoC 
 escolhido anteriormente (ou insira manualmente se não o implementou). 
 Utilize a função runTestSuite para correr os testes unitários definidos anteriormente, 
 mas agora a usar o programa mutado (mantendo ainda o resultado esperado do programa original). 
