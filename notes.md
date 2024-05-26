@@ -43,7 +43,7 @@ e validar se todos passam.
    unitários para cada um, e verifique que estes passam com a sua função
    **runTestSuite**
 
-⬜ 5. Desenvolva código para a **inserção de uma mutação aleatória** num programa PicoC. 
+✅ 5. Desenvolva código para a **inserção de uma mutação aleatória** num programa PicoC. 
 Para isto, poderá recorrer a uma implementação manual, ou investigar as definições de 
 **once_randomTP** e **mutations** disponíveis na biblioteca de programação estratégica em Haskell.
 
