@@ -71,20 +71,19 @@ def eval_bloco(bloco: pa.Bloco, args: dict[str, int] = {}):
 
 
 def eval_inst(inst: pa.Inst, args: dict[str, int] = {}):
-    # print(f"eval_inst: {inst}, type: {type(inst)}")
     val = inst.match(
         decl=lambda t, s: None,
         atrib=lambda t, s, e: eval_atrib(t, s, e, args),
         while_loop=lambda e, b: eval_while(e, b, args),
         ite=lambda e, b1, b2: eval_ite(e, b1, b2, args),
         returns=lambda e: eval_return(e, args),
-        empty=lambda: None
+        empty=lambda: None,
+        print=lambda s: print(s)
     )
     return val
 
-
 def evaluate(ast: pa.PicoC, args: dict[str, int] = {}) -> int:
-    if ast == None:
+    if ast is None:
         return None
 
     for i in ast.insts():
@@ -119,6 +118,7 @@ if __name__ == "__main__":
     """
 
     data = """
+        print "teste";
         int x = 1;
         int y = 3;
         int z = 2;

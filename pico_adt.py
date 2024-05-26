@@ -55,6 +55,7 @@ class Inst:
     ITE: Case["Cond", "Bloco", "Bloco"]
     RETURNS: Case["Exp"]
     EMPTY: Case
+    PRINT: Case[str]
 
     def __init__(self, pretty_print=True):
         self.pretty_print = pretty_print
@@ -82,6 +83,8 @@ class Inst:
                 e: f"return {e.print(pretty_print)}{statement_end_symbol}" if self.pretty_print else "RETURNS (" + e.print(
                 pretty_print) + ")",
             empty=lambda: "" if self.pretty_print else "EMPTY",
+            print=lambda x: f'print({x}){statement_end_symbol}' if self.pretty_print else "PRINT(" + x + ")"
+
         )
 
 
@@ -196,6 +199,19 @@ class Cond:
                 pretty_print) if self.pretty_print else "LESS_EQUAL (" + x.print(pretty_print) + ", " + y.print(
                 pretty_print) + ")",
         )
+    
+def instrumentation(program):
+    def instrument_instructions(instructions):
+        instrumented_instructions = []
+        for instr in instructions:
+            instrumented_instructions.append(Inst.PRINT(f"Executing: {instr.print()}"))
+            instrumented_instructions.append(instr)
+        return instrumented_instructions
+
+    return program.match(
+        insts=lambda instructions: PicoC.INSTS(instrument_instructions(instructions))
+    )
+
 
 def picoc_to_code(ast: PicoC) -> str:
     return str(ast.print(True))

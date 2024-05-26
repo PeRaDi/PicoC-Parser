@@ -19,7 +19,7 @@ def p_Bloco(p):
 
 def p_Instrucoes(p):
     """Instrucoes : Instrucoes Instrucao
-                    | Instrucao
+                  | Instrucao
     """
     if len(p) == 3:
         p[0] = p[1] + [p[2]]
@@ -37,13 +37,18 @@ def p_Instrucoes(p):
 
 def p_Instrucao(p):
     """Instrucao : ifStatement
-                | whileLoop
-                | atrib
-                | nr
-                | returnStatement
+                 | whileLoop
+                 | atrib
+                 | nr
+                 | returnStatement
+                 | printStatement
     """
     p[0] = p[1]
 
+def p_printStatement(p):
+    """printStatement : print str ';'
+    """
+    p[0] = pa.Inst.PRINT(p[2])
 
 def p_returnStatement(p):
     """returnStatement : return exp ';'
@@ -72,7 +77,6 @@ def p_atrib(p):
 def p_exp_var(p):
     """exp : var"""
     p[0] = pa.Exp.VAR(p[1])
-
 
 def p_exp_const(p):
     """exp : nr"""
@@ -227,6 +231,7 @@ if __name__ == '__main__':
         return x;
     """
     data = """ 
+        print "ola";
         int x = 3 * 4 + 5;
         int y = 3 + 4 * 5;
         int z = 0;
