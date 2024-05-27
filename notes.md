@@ -57,10 +57,10 @@ mas agora a usar o programa mutado (mantendo ainda o resultado esperado do progr
 Adapte o seu **evaluate** para que este seja capaz de **imprimir texto** sempre que encontra uma instrução print. 
 (Dica: utilize o módulo Debug.Trace para não necessitar de manipular o monad de IO para escrever texto.)
 
-⬜ 8. Defina uma função **instrumentation :: PicoC -> PicoC** que irá pegar num programa PicoC e 
+✅ 8. Defina uma função **instrumentation :: PicoC -> PicoC** que irá pegar num programa PicoC e 
 instrumentar o programa para auxiliar a localização de falhas.
 
-⬜ 9. Defina uma função **instrumentedTestSuite :: PicoC -> [(Inputs, Int)] -> Bool** que irá instrumentar cada 
+✅ 9. Defina uma função **instrumentedTestSuite :: PicoC -> [(Inputs, Int)] -> Bool** que irá instrumentar cada 
 programa antes de o executar, e de seguida irá correr os testes unitários e validar se todos passam.
 Em alternativa, implemente uma versão da função evaluate que durante a execução do programa e inputs dados 
 como argumento, produz no fim a lista de instruções do programa usadas durante a sua execução.

@@ -148,7 +148,7 @@ if __name__ == "__main__":
         print(f"Instruction {inst_id}: {inst}")
         execution_trace.append(inst_id)
 
-    instrumented_ast, execution_trace = instrumentation(ast, trace)
+    instrumented_ast = instrumentation(ast, trace)
     print(f"INS: {instrumented_ast}")
     result = pe.evaluate(instrumented_ast, vars)
     print(vars)
