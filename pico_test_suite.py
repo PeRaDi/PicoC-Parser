@@ -339,8 +339,79 @@ def instrumentation_suite_example():
         ({"a": 2, "b": 1, "c": 3}, 3),
     ]) # Fazemos mutação manual para evitar ciclo infinito
 
+def instrumentation_mutation_suite_example():
+    print("Instrumented Mutation Test Suite")
+    code = """
+        int x;
+        int y;
+        int z;
+
+        if (z <= y * x) then
+            z = y * x;
+        else
+            z = (x * y) * 2;
+        end
+
+        return z;
+    """
+    run_instrumented_suite(code, [
+        ({"x": 1, "y": 3, "z": 2}, 3),
+        ({"x": 1, "y": 1, "z": 2}, 2),
+        ({"x": 3, "y": 5, "z": 2}, 15),
+        ({"x": 2, "y": 4, "z": 10}, 16),
+    ], True)
+
+    code = """
+        int x;
+        int z;
+        int count = 0;
+
+        while ( x < z) then
+            x = x + 1;
+            count = count - 1;
+        end
+
+        return count;
+    """
+    run_instrumented_suite(code, [
+        ({"x": 1, "z": 3}, 2),
+        ({"x": 10, "z": 13}, 3),
+    ]) # Fazemos mutação manual para evitar ciclo infinito
+
+
+    code = """
+        int a;
+        int b;
+        int c;
+        int m;
+        
+        if (a > b) then
+            if (a > c) then
+                m = a;
+            else
+                m = b;
+            end
+        else 
+            if (b > c) then
+                m = b;
+            else
+                m = c;
+            end
+        end
+        
+        return m;
+    """
+    run_instrumented_suite(code, [
+        ({"a": 1, "b": 2, "c": 3}, 3),
+        ({"a": 1, "b": 4, "c": 2}, 4),
+        ({"a": 2, "b": 1, "c": 1}, 2),
+        ({"a": 2, "b": 1, "c": 3}, 3),
+    ]) # Fazemos mutação manual para evitar ciclo infinito
+
+
 if __name__ == '__main__':
     # simple_test_example()
     # suite_test_example()
     # suite_test_mutation_example()
-    instrumentation_suite_example()
+    #instrumentation_suite_example()
+    instrumentation_mutation_suite_example()
