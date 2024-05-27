@@ -20,6 +20,8 @@ programa1 = pp.parse("""
         return z;
     """)
 
+programa1mutated = pm.insert_mutations(programa1)
+
 testSuitePrograma1 = [
         ({"x": 1, "y": 3, "z": 2}, 3),
         ({"x": 1, "y": 1, "z": 2}, 2),
@@ -135,7 +137,7 @@ def ponto_4():
     print(pt.runTestSuite(programa3, testSuitePrograma3))
 
 def ponto_6():
-    print(pt.runTestSuite(pm.insert_mutations(programa1), testSuitePrograma1))
+    print(pt.runTestSuite(programa1mutated, testSuitePrograma1))
     print(pt.runTestSuite(programa2mutated, testSuitePrograma2))
     print(pt.runTestSuite(programa3mutated, testSuitePrograma3))
 
@@ -144,7 +146,7 @@ def ponto_7():
     print(pe.evaluate(programa, {}))
 
 def ponto_10():
-    pt.instrumentedTestSuite(pm.insert_mutations(programa1), testSuitePrograma1)
+    pt.instrumentedTestSuite(programa1mutated, testSuitePrograma1)
     pt.instrumentedTestSuite(programa2mutated, testSuitePrograma2)
     pt.instrumentedTestSuite(programa3mutated, testSuitePrograma3 + [({"a": 2, "b": 1, "c": 3}, 3),])
     
