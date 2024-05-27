@@ -1,5 +1,5 @@
 from adt import adt, Case
-from typing import Any
+from typing import Any, Callable
 
 # pretty_print = False
 statement_end_symbol = ";"
@@ -56,6 +56,7 @@ class Inst:
     RETURNS: Case["Exp"]
     EMPTY: Case
     PRINT: Case[str]
+    INSTRUMENT: Case[int, str, Callable[[int], None]]
 
     def __init__(self, pretty_print=True):
         self.pretty_print = pretty_print
@@ -83,8 +84,8 @@ class Inst:
                 e: f"return {e.print(pretty_print)}{statement_end_symbol}" if self.pretty_print else "RETURNS (" + e.print(
                 pretty_print) + ")",
             empty=lambda: "" if self.pretty_print else "EMPTY",
-            print=lambda x: f'print({x}){statement_end_symbol}' if self.pretty_print else "PRINT(" + x + ")"
-
+            print=lambda x: f'print({x}){statement_end_symbol}' if self.pretty_print else "PRINT(" + x + ")",
+            instrument=lambda id, inst, f: f'INSTRUMENT({str(id)})' if self.pretty_print else f"INSTRUMENT ({str(id)})"
         )
 
 
