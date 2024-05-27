@@ -249,6 +249,34 @@ def instrumentation_suite_example():
         ({"x": 10, "z": 13}, 3),
     ]) # Fazemos mutação manual para evitar ciclo infinito
 
+    code = """
+        int a;
+        int b;
+        int c;
+        int m;
+        
+        if (a > b) then
+            if (a > c) then
+                m = a;
+            else
+                m = b;
+            end
+        else 
+            if (b > c) then
+                m = b;
+            else
+                m = c;
+            end
+        end
+        
+        return m;
+    """
+    run_instrumented_suite(code, [
+        ({"a": 1, "b": 2, "c": 3}, 3),
+        ({"a": 1, "b": 4, "c": 2}, 4),
+        ({"a": 2, "b": 1, "c": 1}, 2),
+        ({"a": 2, "b": 1, "c": 3}, 3),
+    ]) # Fazemos mutação manual para evitar ciclo infinito
 
 if __name__ == '__main__':
     # simple_test_example()
