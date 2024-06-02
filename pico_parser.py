@@ -65,8 +65,7 @@ def p_declare(p):
 def p_declare_atrib(p):
     """atrib : int var '=' exp ';'
              | string var '=' str ';'
-             | bool var '=' true ';'
-             | bool var '=' false ';'
+             | bool var '=' exp ';'
      """
     p[0] = pa.Inst.ATRIB(p[1], p[2], p[4])
 
