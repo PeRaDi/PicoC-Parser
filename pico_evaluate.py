@@ -74,6 +74,9 @@ def eval_bloco(bloco: pa.Bloco, args: dict[str, int] = {}):
     for i in bloco.insts():
         eval_inst(i, args)
 
+def eval_print(template: str, args: dict[str, int] = {}):
+    #print(template.replace("{x}", "teste").replace("{y}", "on"))
+    print(template.format(**args))
 
 def eval_inst(inst: pa.Inst, args: dict[str, int] = {}):
     try:
@@ -84,7 +87,7 @@ def eval_inst(inst: pa.Inst, args: dict[str, int] = {}):
             ite=lambda e, b1, b2: eval_ite(e, b1, b2, args),
             returns=lambda e: eval_return(e, args),
             empty=lambda: None,
-            print=lambda s: print(s),
+            print=lambda s: eval_print(s, args),
             instrument=lambda id, s, f: f(id, s),
         )
         return val
@@ -140,6 +143,8 @@ if __name__ == "__main__":
         if (a == True) then
             x = 5;
         end
+
+        print "x = {x}";
 
         return x;
     """
