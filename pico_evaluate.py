@@ -31,7 +31,10 @@ def eval_exp(exp: pa.Exp, args: dict[str, int] = {}):
 
 
 def eval_atrib(type_name, var_name, exp: pa.Exp, args: dict[str, int] = {}):
-    args[var_name] = eval_exp(exp, args)
+    if type_name in ["string"]:
+        args[var_name] = str(exp)
+    else:
+        args[var_name] = eval_exp(exp, args)
     # print(f"eval_atrib: {type_name}, {var_name}, {exp}, {args} => {args[var_name]}")
     return args[var_name]
 
@@ -148,7 +151,30 @@ if __name__ == "__main__":
 
         return x;
     """
-    vars = {}
+    data = """
+        int x;
+        int z;
+        bool w = false;
+        int count = 0;
+        string nome = "Nome";
+
+        if (x < z) then
+            while ( x < z) then
+                x = x + 1;
+                count = count + 1;
+            end 
+        else
+            while ( x > z) then
+                x = x - 1;
+                count = count - 1;
+            end 
+        end
+
+        print "Contador = {count}, {nome}";
+
+        return count;
+    """
+    vars = { "x": 1, "z": 10}
     ast = p.parse(data)
     print(ast.print())
     result = evaluate(ast, vars)
