@@ -235,6 +235,7 @@ if __name__ == '__main__':
         int x = 3 * 4 + 5;
         int y = 3 + 4 * 5;
         int z = 0;
+        bool w = false;
         
         int ans = x + y * z;
         
