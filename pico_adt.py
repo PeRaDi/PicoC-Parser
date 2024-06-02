@@ -72,7 +72,7 @@ class Inst:
         return self.match(
             decl=lambda t, s: f"{t} {s}{statement_end_symbol}" if self.pretty_print else "DECL (" + t + ", " + s + ")",
             atrib=lambda t, s,
-                         e: f"{t + ' ' if t else ''}{s} = {e.print(pretty_print) if t != "bool" else e}{statement_end_symbol}" if self.pretty_print else "ATRIB (" + t + ", " + s + ", " + e.print(
+                         e: f"{t + ' ' if t else ''}{s} = {e.print(pretty_print) if t not in ["bool", "string"] else e}{statement_end_symbol}" if self.pretty_print else "ATRIB (" + t + ", " + s + ", " + e.print(
                 pretty_print) + ")",
             while_loop=lambda c,
                               b: f"while ({c.print(pretty_print)}) then {b.print(pretty_print)} end" if self.pretty_print else "WHILE (" + c.print(
