@@ -1,1 +1,4 @@
+ply==3.11
 algebraic-data-types==0.2.1
+hypothesis==6.102
+typing
