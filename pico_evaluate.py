@@ -3,8 +3,8 @@ import pico_adt as pa
 
 
 def get_var_value(var_name: str, args: dict[str, int] = {}):
-    # print("get_var_value")
-    return args.get(var_name)
+    # print(f"get_var_value {var_name} => {args.get(var_name)}")
+    return args.get(var_name) if var_name not in ["True", "False"] else var_name == "True"
 
 
 def eval_exp(exp: pa.Exp, args: dict[str, int] = {}):
@@ -23,6 +23,7 @@ def eval_exp(exp: pa.Exp, args: dict[str, int] = {}):
             var=lambda x: get_var_value(x, args),
             const=lambda x: x,
         )
+        # print(f"EVAL EXP: {exp} => {val} ({type(val)})")
         return val
     except Exception as e:
         # print(f"Erro: {exp} => {e}")
@@ -30,8 +31,8 @@ def eval_exp(exp: pa.Exp, args: dict[str, int] = {}):
 
 
 def eval_atrib(type_name, var_name, exp: pa.Exp, args: dict[str, int] = {}):
-    # print("eval_atrib")
     args[var_name] = eval_exp(exp, args)
+    # print(f"eval_atrib: {type_name}, {var_name}, {exp}, {args} => {args[var_name]}")
     return args[var_name]
 
 
@@ -51,7 +52,7 @@ def eval_cond(cond: pa.Cond, args: dict[str, int] = {}):
         less=lambda x, y: eval_exp(x, args) < eval_exp(y, args),
         less_equal=lambda x, y: eval_exp(x, args) <= eval_exp(y, args),
     )
-    # print(f"eval_cond result: {val}")
+    # print(f"eval_cond {cond}, {args} => {val}")
     return val
 
 
@@ -130,16 +131,21 @@ if __name__ == "__main__":
         int x = 1;
         int y = 3;
         int z = 2;
-    
+        bool a = true;
+
         if (z <= y * x) then
             x = 4;
         end
     
+        if (a == True) then
+            x = 5;
+        end
+
         return x;
     """
     vars = {}
     ast = p.parse(data)
+    print(ast.print())
     result = evaluate(ast, vars)
-    print(ast)
     print(vars)
     print(result)
